@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  dni             String    @id
+  dni_type        String
+  name            String
+  last_name       String
+  email           String    @unique
+  password        String
+  phone           String
+  address         String
+  profile_picture String
+  birth_date      String
+  score           Float     @default(0)
+  Worker          Worker?
+  Service         Service[]
+}
+
+model Worker {
+  user_dni       String    @id
+  service_type   String
+  service_detail String
+  rate_hour      Float
+  user           User      @relation(fields: [user_dni], references: [dni], onDelete: Cascade, onUpdate: Cascade)
+  Service        Service[]
+}
+
+model Service {
+  id                  Int    @id @default(autoincrement())
+  date_programed      String
+  addres              String
+  date_assignment     String
+  hours               Float
+  total               Float
+  request_status      String
+  service_status      String
+  client_score        Float
+  worker_score        Float
+  service_description String
+  client_dni          String
+  worker_dni          String
+  User                User   @relation(fields: [client_dni], references: [dni], onDelete: Cascade, onUpdate: Cascade)
+  Worker              Worker @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade, onUpdate: Cascade)
+}
