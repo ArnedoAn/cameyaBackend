@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -22,6 +22,7 @@ model User {
   profile_picture String
   birth_date      String
   score           Float     @default(0)
+  is_worker       Boolean   @default(false)
   Worker          Worker?
   Service         Service[]
 }
@@ -49,6 +50,7 @@ model Service {
   service_description String
   client_dni          String
   worker_dni          String
+  categories          String[]
   User                User   @relation(fields: [client_dni], references: [dni], onDelete: Cascade, onUpdate: Cascade)
   Worker              Worker @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade, onUpdate: Cascade)
 }
