@@ -4,8 +4,13 @@ import session from "express-session";
 import { serverConstants as constants } from "./constants/server";
 import authRoute from "./application/Auth/routes/auth_route";
 import googleStrategy from "./application/Auth/strategies/google";
+import cookieParser from "cookie-parser";
 
-export const app = express();
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(
   session({

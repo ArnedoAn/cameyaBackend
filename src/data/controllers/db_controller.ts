@@ -7,7 +7,7 @@ import {
 
 const prisma = constants.prisma;
 
-async function createClient(user: User) {
+async function createUser(user: User) {
   try {
     const client = await prisma.user.create({
       data: user,
@@ -71,7 +71,7 @@ async function getAllWorkers() {
   }
 }
 
-async function getAllClients() {
+async function getAllUsers() {
   try {
     const clients = await prisma.user.findMany();
     return { success: true, message: clients };
@@ -81,7 +81,7 @@ async function getAllClients() {
   }
 }
 
-async function getClientByDni(dni: string) {
+async function getUserByDni(dni: string) {
   try {
     const client = await prisma.user.findUnique({
       where: {
@@ -109,7 +109,7 @@ async function getWorkerByDni(dni: string) {
   }
 }
 
-async function getServicesOfClient(dni: string) {
+async function getServicesOfUser(dni: string) {
   try {
     const services = await prisma.service.findMany({
       where: {
@@ -227,19 +227,19 @@ async function updateScoreUser(dni: string, score: number) {
   }
 }
 
-async function getServicesByCategory(category: string[]) {
-  try {
-    const services = await prisma.service.findMany({
-      where: {
-        category: category,
-      },
-    });
-    return { success: true, message: services };
-  } catch (error: Error | any) {
-    console.log(error);
-    return { success: false, message: error.message };
-  }
-}
+// async function getServicesByCategory(category: string[]) {
+//   try {
+//     const services = await prisma.service.findMany({
+//       where: {
+//         category: "",
+//       },
+//     });
+//     return { success: true, message: services };
+//   } catch (error: Error | any) {
+//     console.log(error);
+//     return { success: false, message: error.message };
+//   }
+// }
 
 async function getWorkersByCategory(category: string) {
   try {
@@ -254,3 +254,39 @@ async function getWorkersByCategory(category: string) {
     return { success: false, message: error.message };
   }
 }
+
+async function getUserByEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    return { success: true, message: user };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+export default {
+  createUser,
+  createWorker,
+  createService,
+  getAllServices,
+  getAllWorkers,
+  getAllUsers,
+  getUserByDni,
+  getWorkerByDni,
+  getServicesOfUser,
+  getServicesOfWorker,
+  updateUser,
+  updateWorker,
+  updateService,
+  deleteUser,
+  deleteService,
+  updateScoreUser,
+  //getServicesByCategory,
+  getWorkersByCategory,
+  getUserByEmail,
+};

@@ -50,7 +50,7 @@ model Service {
   service_description String
   client_dni          String
   worker_dni          String
-  categories          String[]
+  categories          String
   User                User   @relation(fields: [client_dni], references: [dni], onDelete: Cascade, onUpdate: Cascade)
   Worker              Worker @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade, onUpdate: Cascade)
 }
