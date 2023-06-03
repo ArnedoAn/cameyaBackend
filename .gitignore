@@ -1,4 +1,6 @@
 keys.json
+prisma/
+credentials.json
 
 # Logs
 logs

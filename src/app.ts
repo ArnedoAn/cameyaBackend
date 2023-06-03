@@ -3,6 +3,7 @@ import passport from "passport";
 import session from "express-session";
 import { serverConstants as constants } from "./constants/server";
 import authRoute from "./application/Auth/routes/auth.route";
+import clientRoute from "./application/Clients/routes/client.route";
 import googleStrategy from "./application/Auth/strategies/google.strategy";
 import cookieParser from "cookie-parser";
 
@@ -23,11 +24,11 @@ app.use(
 // Se inicializa passport
 app.use(passport.initialize());
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done: any) => {
   done(null, user);
 });
 
-passport.deserializeUser((user: any, done) => {
+passport.deserializeUser((user: any, done: any) => {
   done(null, user);
 });
 
@@ -35,7 +36,8 @@ passport.deserializeUser((user: any, done) => {
 passport.use(googleStrategy);
 
 // Rutas de la aplicación
-app.use("/auth", authRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", clientRoute);
 
 app.listen(constants.port, () => {
   console.log(`Server running on port ${constants.port}`);
