@@ -17,9 +17,15 @@ async function loginUserFromForm(user: LoginDTO) {
 
 async function loginUserFromGoogle(user: LoginDTO) {
   const client = await dbController.getUserByEmail(user.email);
-  console.log(client)
+  console.log(client);
   if (!client.success) {
     return client;
+  }
+
+  if (
+    (await validatePassword(user.password, client.message.password)) === false
+  ) {
+    return { success: false, message: "Fatal Log With Google!" };
   }
   return { success: true, message: "Signed in!" };
 }

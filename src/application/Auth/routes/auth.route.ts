@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import passport from "passport";
 import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
-import registerService from "../services/register_service";
-import loginService from "../services/login_service";
+import registerService from "../services/register.service";
+import loginService from "../services/login.service";
 
 const router = express.Router(); // RUTA: /auth
 

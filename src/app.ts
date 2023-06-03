@@ -2,8 +2,8 @@ import express from "express";
 import passport from "passport";
 import session from "express-session";
 import { serverConstants as constants } from "./constants/server";
-import authRoute from "./application/Auth/routes/auth_route";
-import googleStrategy from "./application/Auth/strategies/google";
+import authRoute from "./application/Auth/routes/auth.route";
+import googleStrategy from "./application/Auth/strategies/google.strategy";
 import cookieParser from "cookie-parser";
 
 const app = express();

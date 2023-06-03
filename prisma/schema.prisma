@@ -54,3 +54,8 @@ model Service {
   User                User   @relation(fields: [client_dni], references: [dni], onDelete: Cascade, onUpdate: Cascade)
   Worker              Worker @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade, onUpdate: Cascade)
 }
+
+model Admin{
+  email    String @id
+  password String
+}
