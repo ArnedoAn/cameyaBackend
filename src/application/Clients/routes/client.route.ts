@@ -22,10 +22,11 @@ router.put("/profile", async (req, res) => {
   res.json(response);
 });
 
-router.put(
+router.post(
   "/profile/profile_picture",
   upload.single("image"),
   async (req, res) => {
+    console.log(req.file);
     const response = await clientService.uploadProfilePicture(
       req.file as Express.Multer.File
     );

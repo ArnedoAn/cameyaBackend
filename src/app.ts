@@ -36,7 +36,7 @@ passport.deserializeUser((user: any, done: any) => {
 passport.use(googleStrategy);
 
 // Rutas de la aplicación
-app.use("/api/auth", authRoute);
+app.use("/auth", authRoute);
 app.use("/api/user", clientRoute);
 
 app.listen(constants.port, () => {

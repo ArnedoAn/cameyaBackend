@@ -1,4 +1,4 @@
-import Minio from "minio";
+const Minio = require("minio");
 import * as MinioKeys from "../../credentials.json";
 
 const minioClient = new Minio.Client({
