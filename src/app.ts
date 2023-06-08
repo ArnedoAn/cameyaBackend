@@ -57,7 +57,7 @@ app.use("/auth", authRoute);
 app.use("/api/user", clientRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello world");
+  res.redirect("/api-docs");
 });
 
 app.listen(constants.port, () => {
