@@ -1,17 +1,34 @@
 import express from "express";
 import passport from "passport";
 import session from "express-session";
+import morgan from "morgan";
 import { serverConstants as constants } from "./constants/server";
 import authRoute from "./application/Auth/routes/auth.route";
 import clientRoute from "./application/Clients/routes/client.route";
 import googleStrategy from "./application/Auth/strategies/google.strategy";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import path from "path";
 
 const app = express();
+const swaggerPath = path.join(
+  process.cwd(),
+  "src",
+  "utils",
+  "documentation",
+  "swagger.json"
+);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath)));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan("dev"));
+
+// Configuración de CORS
+app.use(cors());
 
 app.use(
   session({
@@ -38,6 +55,10 @@ passport.use(googleStrategy);
 // Rutas de la aplicación
 app.use("/auth", authRoute);
 app.use("/api/user", clientRoute);
+
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
 
 app.listen(constants.port, () => {
   console.log(`Server running on port ${constants.port}`);

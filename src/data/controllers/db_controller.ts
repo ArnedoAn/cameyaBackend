@@ -196,11 +196,11 @@ async function deleteUser(dni: string) {
   }
 }
 
-async function deleteService(id: number) {
+async function deleteService(id: string) {
   try {
     const service = await prisma.service.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
     return { success: true, message: service };
@@ -227,19 +227,19 @@ async function updateScoreUser(dni: string, score: number) {
   }
 }
 
-// async function getServicesByCategory(category: string[]) {
-//   try {
-//     const services = await prisma.service.findMany({
-//       where: {
-//         category: "",
-//       },
-//     });
-//     return { success: true, message: services };
-//   } catch (error: Error | any) {
-//     console.log(error);
-//     return { success: false, message: error.message };
-//   }
-// }
+async function getServicesByCategory(category: string) {
+  try {
+    const services = await prisma.service.findMany({
+      where: {
+        categories: category,
+      },
+    });
+    return { success: true, message: services };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
 
 async function getWorkersByCategory(category: string) {
   try {
@@ -269,6 +269,24 @@ async function getUserByEmail(email: string) {
   }
 }
 
+async function updloadProfilePicture(dni: string, url: string) {
+  try {
+    const client = await prisma.user.update({
+      where: {
+        dni: dni,
+      },
+      data: {
+        profile_picture: url,
+      },
+    });
+    return { success: true, message: client };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+
 export default {
   createUser,
   createWorker,
@@ -286,7 +304,8 @@ export default {
   deleteUser,
   deleteService,
   updateScoreUser,
-  //getServicesByCategory,
+  getServicesByCategory,
   getWorkersByCategory,
   getUserByEmail,
+  updloadProfilePicture,
 };

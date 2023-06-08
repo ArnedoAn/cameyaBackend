@@ -13,10 +13,10 @@ model Admin {
 }
 
 model Service {
-  id                  Int    @id @default(autoincrement())
-  date_programed      String
+  id                  Int      @id @default(autoincrement())
+  date_programed      DateTime
   addres              String
-  date_assignment     String
+  date_assignment     DateTime @default(now())
   hours               Float
   total               Float
   request_status      String
@@ -27,8 +27,8 @@ model Service {
   client_dni          String
   worker_dni          String
   categories          String
-  User                User   @relation(fields: [client_dni], references: [dni], onDelete: Cascade)
-  Worker              Worker @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
+  User                User     @relation(fields: [client_dni], references: [dni], onDelete: Cascade)
+  Worker              Worker   @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
 }
 
 model User {

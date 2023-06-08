@@ -27,21 +27,19 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     console.log(req.file);
+    const { dni } = req.body;
     const response = await clientService.uploadProfilePicture(
-      req.file as Express.Multer.File
+      req.file as Express.Multer.File,
+      dni as string
     );
     res.json(response);
   }
 );
 
-router.get("/profile/profile_picture", async (req, res) => {
-  const response = await clientService.getProfilePicture(
-    req.body.imageName as string
-  );
-  if (!response.success) {
-    res.status(404).json(response);
-  }
-  res.sendFile(response.message);
+router.put("/score", async (req, res) => {
+  const { dni, score } = req.body;
+  const response = await clientService.setScore(dni as string, score as number);
+  res.json(response);
 });
 
 export default router;
