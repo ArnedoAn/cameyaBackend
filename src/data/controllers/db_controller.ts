@@ -15,7 +15,7 @@ async function createUser(user: User) {
     return { success: true, message: client };
   } catch (error: Error | any) {
     console.log(error);
-    return { success: false, message: error.message };
+    return { success: false, message: error.code };
   }
 }
 
@@ -285,7 +285,6 @@ async function updloadProfilePicture(dni: string, url: string) {
     return { success: false, message: error.message };
   }
 }
-
 
 export default {
   createUser,

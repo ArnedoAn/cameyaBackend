@@ -4,8 +4,9 @@ import bcrypt from "bcrypt";
 
 async function loginUserFromForm(user: LoginDTO) {
   const client = await dbController.getUserByEmail(user.email);
-  if (!client.success) {
-    return client;
+  console.log(client.success, client.message);
+  if (!client.success || client.message === null) {
+    return { success: false, message: "Invalid email or password" };
   }
   if (
     (await validatePassword(user.password, client.message.password)) === false
@@ -18,8 +19,8 @@ async function loginUserFromForm(user: LoginDTO) {
 async function loginUserFromGoogle(user: LoginDTO) {
   const client = await dbController.getUserByEmail(user.email);
   console.log(client);
-  if (!client.success) {
-    return client;
+  if (!client.success || client.message === null) {
+    return { success: false, message: "Fatal Log With Google!" };
   }
 
   if (

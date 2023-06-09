@@ -16,6 +16,10 @@ router.post("/login", async (req: Request, res: Response) => {
   res.json(response);
 });
 
+router.get("/login", async (req: Request, res: Response) => {
+  res.send("Login");
+});
+
 router.get("/logout", async (req: Request, res: Response) => {
   res.send("Logout");
 });
@@ -29,12 +33,11 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/login" }),
   async (req, res: Response) => {
-    const user = req.user as googleDTO;
-    const response = await registerService.registerUserFromGoogle(user);
-    if (!response.success) {
-      res.send("Error");
-    }
-    res.redirect("/");
+    const status = req.user as boolean;
+    console.log(status);
+    // res.send(status);
+    // const response = await registerService.registerUserFromGoogle(user);
+    // res.json(response);
   }
 );
 

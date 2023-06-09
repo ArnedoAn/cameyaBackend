@@ -6,6 +6,9 @@ import bcrypt from "bcrypt";
 async function registerUserFromForm(user: User) {
   user.password = await encryptPassword(user.password);
   const response = await dbController.createUser(user);
+  if (!response.success && response.message === "P2002") {
+    return { success: false, message: "User already registered" };
+  }
   return response;
 }
 
@@ -25,12 +28,23 @@ async function registerUserFromGoogle(user: googleDTO) {
     is_worker: false,
   };
 
-  const response = await dbController.createUser(userToDB);
-  return response;
+  return userToDB;
 }
 
 async function encryptPassword(pwd: string) {
   return await bcrypt.hash(pwd, 10);
 }
 
-export default { registerUserFromForm, registerUserFromGoogle };
+async function isRegistered(email: string) {
+  const response = await dbController.getUserByEmail(email);
+  console.log(response);
+  if (
+    (response.success && response.message !== null) ||
+    response.success === false
+  ) {
+    return false;
+  }
+  return true;
+}
+
+export default { registerUserFromForm, registerUserFromGoogle, isRegistered };
