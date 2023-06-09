@@ -17,10 +17,10 @@ const googleStrategy = new GoogleStrategy(
 
     if (response === false) {
       console.log("User not registered");
-      done(null, false);
+      done(null, profile);
     } else {
       console.log("User registered");
-      done(null, profile);
+      done(null, false);
     }
   }
 );

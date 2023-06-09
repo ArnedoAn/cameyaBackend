@@ -39,7 +39,7 @@ async function isRegistered(email: string) {
   const response = await dbController.getUserByEmail(email);
   console.log(response);
   if (
-    (response.success && response.message !== null) ||
+    (response.success && response.message === null) ||
     response.success === false
   ) {
     return false;
