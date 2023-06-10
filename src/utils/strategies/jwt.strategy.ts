@@ -1,21 +1,32 @@
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import jwt from "jsonwebtoken";
+import db_controller from "../../data/controllers/db_controller";
 import { servicesConstanst } from "../../constants/services";
 
 const secretKey = servicesConstanst.jwtSecret;
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "tu_clave_secreta", // Reemplaza con tu clave secreta para JWT
+  secretOrKey: secretKey, // Reemplaza con tu clave secreta para JWT
 };
 
-const jwtStrategy = new JwtStrategy(jwtOptions, (jwtPayload, done) => {
+interface JwtPayload {
+  email: string;
+  password: string;
+  iat: number;
+}
+
+const verifyCallback = async (jwtPayload: JwtPayload, done: any) => {
   try {
-    jwt.verify(jwtPayload, secretKey as string ); // Verificar el token con la clave secreta
-    done(null, true); // Autenticación exitosa, permitir acceso al endpoint
+    const user = await db_controller.getUserByEmail(jwtPayload.email);
+    if (user) {
+      return done(null, user);
+    }
+    return done(null, false);
   } catch (err) {
-    done(null, false, { message: "Acceso no autorizado" }); // Acceso no autorizado, mensaje personalizado
+    return done(err);
   }
-});
+};
+
+const jwtStrategy = new JwtStrategy(jwtOptions, verifyCallback);
 
 export default jwtStrategy;
