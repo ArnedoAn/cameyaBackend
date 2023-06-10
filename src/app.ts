@@ -5,7 +5,8 @@ import morgan from "morgan";
 import { serverConstants as constants } from "./constants/server";
 import authRoute from "./application/Auth/routes/auth.route";
 import clientRoute from "./application/Clients/routes/client.route";
-import googleStrategy from "./application/Auth/strategies/google.strategy";
+import googleStrategy from "./utils/strategies/google.strategy";
+import jwtStrategy from "./utils/strategies/jwt.strategy";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
@@ -29,7 +30,7 @@ app.use(morgan("dev"));
 
 // Configuración de CORS
 const corsOptions = {
-  origin: '*', // Reemplazar con dominio en producción
+  origin: "*", // Reemplazar con dominio en producción
   optionsSuccessStatus: 200,
 };
 
@@ -56,6 +57,9 @@ passport.deserializeUser((user: any, done: any) => {
 
 // Estrategia de autenticación de Google
 passport.use(googleStrategy);
+
+// Estrategia de autenticación con JWT
+passport.use(jwtStrategy);
 
 // Rutas de la aplicación
 app.use("/auth", authRoute);

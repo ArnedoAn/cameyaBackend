@@ -1,6 +1,6 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { authConstants as constants } from "../../../constants/auth";
-import RegisterServices from "../services/register.service";
+import { authConstants as constants } from "../../constants/auth";
+import RegisterServices from "../../application/Auth/services/register.service";
 
 const googleStrategy = new GoogleStrategy(
   {

@@ -18,8 +18,11 @@ Cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+
+
 export const servicesConstanst = {
   // minioClient,
   // minioBucket: "semard",
   cloudinary: Cloudinary,
+  jwtSecret: process.env.JWT_SECRET,
 };

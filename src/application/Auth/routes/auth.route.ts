@@ -3,6 +3,7 @@ import registerService from "../services/register.service";
 import loginService from "../services/login.service";
 import googleService from "../services/google.service";
 import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
+import passport from "passport";
 
 const router = express.Router(); // RUTA: /auth (Los codigos HTTP son innexactos, solo para referencia)
 
@@ -44,5 +45,13 @@ router.post("/google", async (req: Request, res: Response) => {
   }
   return res.status(400).json(response);
 });
+
+router.get(
+  "/jwtTest",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    res.json({ success: true, message: "JWT test passed" });
+  }
+);
 
 export default router;
