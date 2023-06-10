@@ -14,15 +14,15 @@ async function registerUserFromForm(user: User) {
 
 async function registerUserFromGoogle(user: googleDTO) {
   const userToDB: User = {
-    dni: user._json.family_name, // Provisional dni [Change this]
+    dni: "", // Provisional dni [Change this]
     dni_type: "",
-    name: user._json.given_name,
-    last_name: user._json.family_name,
-    email: user._json.email,
-    password: await encryptPassword(user._json.sub),
+    name: user.given_name,
+    last_name: user.family_name,
+    email: user.email,
+    password: await encryptPassword(user.sub),
     phone: "",
     address: "",
-    profile_picture: user._json.picture,
+    profile_picture: user.picture,
     birth_date: "",
     score: 0,
     is_worker: false,
