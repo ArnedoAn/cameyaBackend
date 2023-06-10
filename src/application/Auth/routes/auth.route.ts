@@ -30,7 +30,7 @@ router.get("/logout", async (req: Request, res: Response) => {
   res.json({ success: false, message: "User not logged in" });
 });
 
-router.get("/google", async (req: Request, res: Response) => {
+router.post("/google", async (req: Request, res: Response) => {
   const response = await googleService.validateGoogleUser(
     req.body as googleDTO
   );
