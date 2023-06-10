@@ -28,7 +28,12 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 // Configuración de CORS
-app.use(cors());
+const corsOptions = {
+  origin: '*', // Reemplazar con dominio en producción
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   session({
