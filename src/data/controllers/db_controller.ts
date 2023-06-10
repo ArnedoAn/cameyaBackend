@@ -104,7 +104,7 @@ async function getWorkerByDni(dni: string) {
     });
     return { success: true, message: worker };
   } catch (error: Error | any) {
-    console.log(error);
+    // console.log(error);
     return { success: false, message: error.message };
   }
 }

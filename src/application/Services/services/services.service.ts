@@ -36,3 +36,12 @@ async function deleteService(id: string) {
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: "Service deleted succesfully" };
 }
+
+export default {  
+  createService,
+  getServicesOfUser,
+  getServicesOfWorker,
+  getServicesByCategory,
+  updateService,
+  deleteService,
+};

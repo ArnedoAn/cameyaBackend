@@ -10,5 +10,5 @@ export const DBconstants = {
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
   },
-  prisma: new PrismaClient(),
+  prisma: new PrismaClient()
 };
