@@ -24,15 +24,7 @@ async function createWorker(user: Worker) {
     const worker = await prisma.worker.create({
       data: user,
     });
-    const editUser = await prisma.user.update({
-      where: {
-        dni: user.user_dni,
-      },
-      // no sé si esto está bien o demas
-      data: {
-        is_worker: true,
-      },
-    });
+    
     return { success: true, message: worker };
   } catch (error: Error | any) {
     console.log(error);
