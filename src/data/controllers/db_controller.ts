@@ -28,6 +28,7 @@ async function createWorker(user: Worker) {
       where: {
         dni: user.user_dni,
       },
+      // no sé si esto está bien o demas
       data: {
         is_worker: true,
       },
@@ -227,6 +228,39 @@ async function updateScoreUser(dni: string, score: number) {
   }
 }
 
+async function getScoreService(dni: number) {
+  try {
+    const service = await prisma.service.findUnique({
+      where: {
+        id: dni,
+      },
+    });
+    return {
+      success: true, message: {
+        client_score: service?.client_score,
+        worker_score: service?.worker_score
+      }
+    };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+async function getScoreUser(dni: string) {
+  try {
+    const client = await prisma.user.findUnique({
+      where: {
+        dni: dni,
+      },
+    });
+    return { success: true, message: client?.score };
+  } catch (error: Error | any) {
+    return { success: false, message: error.message };
+  }
+}
+
+
 async function getServicesByCategory(category: string) {
   try {
     const services = await prisma.service.findMany({
@@ -307,4 +341,6 @@ export default {
   getWorkersByCategory,
   getUserByEmail,
   updloadProfilePicture,
+  getScoreService,
+  getScoreUser,
 };

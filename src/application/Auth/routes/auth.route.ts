@@ -8,11 +8,12 @@ import passport from "passport";
 const router = express.Router(); // RUTA: /auth (Los codigos HTTP son innexactos, solo para referencia)
 
 router.post("/register", async (req: Request, res: Response) => {
-  const response = await registerService.registerUserFromForm(req.body);
-  if (response.success) {
-    return res.status(201).json(response);
-  }
-  return res.status(400).json(response);
+    const response = await registerService.registerUserFromForm(req.body);
+    if (response?.success) {
+      return res.status(201).json(response);
+    }
+    return res.status(400).json(response);
+  
 });
 
 router.post("/login", async (req: Request, res: Response) => {
