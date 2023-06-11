@@ -30,4 +30,17 @@ router.post(
     }
 );
 
+router.put('/score', async (req, res) => {
+    const { id, score } = req.body;
+    const response = await workerService.setScoreUser(id as number, score as number);
+    res.json(response);
+});
+
+router.get('/score', async (req, res) => {
+    const { id } = req.body;
+    const response = await workerService.getScoreWorker(id as number);
+    res.json(response);
+});
+
+
 export default router;

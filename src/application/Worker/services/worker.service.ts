@@ -33,10 +33,25 @@ async function uploadProfilePicture(image: Express.Multer.File, dni: string) {
     }
 }
 
+async function setScoreUser(id: number, score: number) {
+    const response = await dbController.updateScoreUser(id, score);
+    const response2 = await dbController.setScoreUser(id.toString(), score);
+    if (!response.success || !response2.success) return { success: false, message: response.message };
+    return { success: true, message: "Score assigned successfully" };
+}
+
+async function getScoreWorker(id: number) {
+    const response = await dbController.getScoreUser(id.toString());
+    if (!response.success) return { success: false, message: response.message };
+    return { success: true, message: response.message };
+}
+
 export default {
     getProfileData,
     modifyProfileData,
-    uploadProfilePicture
+    uploadProfilePicture,
+    setScoreUser,
+    getScoreWorker
 }
 
 

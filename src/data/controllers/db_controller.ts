@@ -24,7 +24,7 @@ async function createWorker(user: Worker) {
     const worker = await prisma.worker.create({
       data: user,
     });
-    
+
     return { success: true, message: worker };
   } catch (error: Error | any) {
     console.log(error);
@@ -203,28 +203,45 @@ async function deleteService(id: string) {
   }
 }
 
-async function updateScoreUser(dni: string, score: number) {
+async function updateScoreWorker(id: number, score: number) {
   try {
-    const client = await prisma.user.update({
+    const service = await prisma.service.update({
       where: {
-        dni: dni,
+        id: id,
       },
       data: {
-        score: score,
+        worker_score: score,
       },
     });
-    return { success: true, message: client };
+    return { success: true, message: service };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
   }
 }
 
-async function getScoreService(dni: number) {
+async function updateScoreUser(id: number, score: number) {
+  try {
+    const service = await prisma.service.update({
+      where: {
+        id: id,
+      },
+      data: {
+        client_score: score,
+      },
+    });
+    return { success: true, message: service };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+async function getScoreService(id: number) {
   try {
     const service = await prisma.service.findUnique({
       where: {
-        id: dni,
+        id: id,
       },
     });
     return {
@@ -239,13 +256,86 @@ async function getScoreService(dni: number) {
   }
 }
 
+async function setScoreUser(id: string, score: number) {
+  try {
+    const service = await prisma.service.findUnique({
+      where: {
+        id: Number(id),
+      }
+    });
+
+    const result = await prisma.service.aggregate({
+      where: {
+        client_dni: service?.client_dni
+      },
+      _avg: {
+        client_score: true
+      }
+    });
+
+    const average = result._avg.client_score ?? 0;
+
+    await prisma.user.update({
+      where: {
+        dni: service?.client_dni
+      },
+      data: {
+        score: average
+      }
+    });
+
+    return { success: true, message: average };
+
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+async function setScoreWorker(id: string, score: number) {
+  try {
+    const service = await prisma.service.findUnique({
+      where: {
+        id: Number(id),
+      }
+    });
+
+    const result = await prisma.service.aggregate({
+      where: {
+        worker_dni: service?.worker_dni
+      },
+      _avg: {
+        worker_score: true
+      }
+    });
+
+    const average = result._avg.worker_score ?? 0;
+
+    await prisma.user.update({
+      where: {
+        dni: service?.worker_dni
+      },
+      data: {
+        score: average
+      }
+    });
+
+    return { success: true, message: average };
+
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 async function getScoreUser(dni: string) {
   try {
     const client = await prisma.user.findUnique({
       where: {
         dni: dni,
-      },
+      }
     });
+    if (!client) throw new Error("User not found");
     return { success: true, message: client?.score };
   } catch (error: Error | any) {
     return { success: false, message: error.message };
@@ -335,4 +425,7 @@ export default {
   updloadProfilePicture,
   getScoreService,
   getScoreUser,
+  updateScoreWorker,
+  setScoreUser,
+  setScoreWorker
 };
