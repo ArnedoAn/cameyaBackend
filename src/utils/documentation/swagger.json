@@ -8,17 +8,11 @@
   "paths": {
     "auth/register": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "summary": "User registration",
         "description": "Register a new user in the Cameya platform",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
@@ -41,17 +35,11 @@
     },
     "auth/login": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "summary": "Login",
         "description": "Allows a user to log in with their email and password.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -110,17 +98,11 @@
     },
     "auth/google": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "summary": "Google Login",
         "description": "Allows a user to log in with their Google account.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -150,6 +132,111 @@
           },
           "400": {
             "description": "Error in Google login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/user/profile": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Get user's profile",
+        "description": "Recieve user's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/User" 
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags": ["User"],
+        "summary": "Update user's profile",
+        "description": "Update user's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],	
+        "responses":{
+          "200": {
+            "description": "User profile updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating user profile",
             "schema": {
               "type": "object",
               "properties": {
