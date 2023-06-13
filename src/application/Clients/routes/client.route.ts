@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   res.send("Client route");
 });
 
-router.get("/profile", async (req, res) => {
+router.post("/profile", async (req, res) => {
   const response = await clientService.getProfileData(req.body.id as string);
   res.json(response);
 });

@@ -6,10 +6,19 @@
     "description": "API for exclusive consumption by the Cameya frontend or third parties associated with the Cameya project, owned by Cameya SAS"
   },
   "paths": {
-    "/register": {
+    "auth/register": {
       "post": {
+        "tags": [
+          "Authentication"
+        ],
         "summary": "User registration",
         "description": "Register a new user in the Cameya platform",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "body",
@@ -25,6 +34,130 @@
             "description": "User registered successfully",
             "schema": {
               "$ref": "#/definitions/RegisterResponse"
+            }
+          }
+        }
+      }
+    },
+    "auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "description": "Allows a user to log in with their email and password.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "credentials",
+            "description": "Login credentials",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/User"
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "auth/google": {
+      "post": {
+        "summary": "Google Login",
+        "description": "Allows a user to log in with their Google account.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "googleDTO",
+            "description": "Google login data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GoogleDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Google login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in Google login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -85,6 +218,132 @@
           "type": "string"
         }
       }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "dni": {
+          "type": "string",
+          "format": "id"
+        },
+        "dni_type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "profile_picture": {
+          "type": "string"
+        },
+        "birth_date": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "default": 0
+        },
+        "is_worker": {
+          "type": "boolean",
+          "default": false
+        },
+        "Service": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        },
+        "Worker": {
+          "$ref": "#/definitions/Worker"
+        }
+      }
+    },
+    "Service": {
+      "type": "object"
+    },
+    "Worker": {
+      "type": "object"
+    },
+    "GoogleDTO": {
+      "type": "object",
+      "properties": {
+        "iss": {
+          "type": "string"
+        },
+        "nbf": {
+          "type": "number"
+        },
+        "aud": {
+          "type": "string"
+        },
+        "sub": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "email_verified": {
+          "type": "boolean"
+        },
+        "azp": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "given_name": {
+          "type": "string"
+        },
+        "family_name": {
+          "type": "string"
+        },
+        "iat": {
+          "type": "number"
+        },
+        "exp": {
+          "type": "number"
+        },
+        "jti": {
+          "type": "string"
+        }
+      }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "API endpoints for user authentication"
+    },
+    {
+      "name": "User",
+      "description": "API endpoints for client actions (CRUD)"
+    },
+    {
+      "name": "Worker",
+      "description": "API endpoints for worker actions (CRUD)"
+    },
+    {
+      "name": "Services",
+      "description": "API endpoints for services interaction"
+    }
+  ]
 }

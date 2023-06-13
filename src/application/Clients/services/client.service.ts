@@ -4,6 +4,7 @@ import ImageController from "../../../utils/images/uploadImage.service";
 
 async function getProfileData(email: string) {
   const response = await dbController.getUserByDni(email);
+  delete response.message.password;
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: response.message };
 }

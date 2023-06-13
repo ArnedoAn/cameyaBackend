@@ -4,21 +4,23 @@ import loginService from "../services/login.service";
 import googleService from "../services/google.service";
 import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
 import passport from "passport";
+import { UserInterface } from "../../../data/interfaces/models";
 
 const router = express.Router(); // RUTA: /auth (Los codigos HTTP son innexactos, solo para referencia)
 
 router.post("/register", async (req: Request, res: Response) => {
-    const response = await registerService.registerUserFromForm(req.body);
-    if (response?.success) {
-      return res.status(201).json(response);
-    }
-    return res.status(400).json(response);
-  
+  const response = await registerService.registerUserFromForm(req.body);
+  if (response?.success) {
+    return res.status(201).json(response);
+  }
+  return res.status(400).json(response);
+
 });
 
 router.post("/login", async (req: Request, res: Response) => {
   const response = await loginService.loginUserFromForm(req.body);
   if (response.success) {
+    delete response.message.password;
     return res.status(200).json(response);
   }
   return res.status(400).json(response);
@@ -37,6 +39,10 @@ router.post("/google", async (req: Request, res: Response) => {
     req.body as googleDTO
   );
   if (response?.success) {
+    const userMessage = response.message as UserInterface;
+    if ('password' in userMessage) {
+      delete (userMessage as any).password;
+    }
     return res.status(200).json(response);
   } else if (
     response?.success === false &&
