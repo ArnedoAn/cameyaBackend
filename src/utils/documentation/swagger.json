@@ -110,6 +110,9 @@
     },
     "auth/google": {
       "post": {
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Google Login",
         "description": "Allows a user to log in with their Google account.",
         "consumes": [
@@ -239,9 +242,6 @@
           "type": "string",
           "format": "email"
         },
-        "password": {
-          "type": "string"
-        },
         "phone": {
           "type": "string"
         },
@@ -262,15 +262,6 @@
         "is_worker": {
           "type": "boolean",
           "default": false
-        },
-        "Service": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Service"
-          }
-        },
-        "Worker": {
-          "$ref": "#/definitions/Worker"
         }
       }
     },

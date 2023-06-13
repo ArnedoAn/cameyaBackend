@@ -10,6 +10,8 @@ async function getProfileData(email: string) {
 }
 
 async function modifyProfileData(user: UserInterface) {
+  console.log(user)
+  console.log(user.email)
   const response = await dbController.updateUser(user.email, user);
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: "Data updated successfully" };
