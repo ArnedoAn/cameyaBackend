@@ -22,7 +22,7 @@ async function uploadProfilePicture(image: Express.Multer.File, dni: string) {
   try {
     const user = await dbController.uploadProfilePicture(
       dni,
-      response.url as string
+      response.message as string
     );
 
     if (!user.success) throw new Error(user.message);
