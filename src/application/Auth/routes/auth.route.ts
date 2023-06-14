@@ -14,13 +14,11 @@ router.post("/register", async (req: Request, res: Response) => {
     return res.status(201).json(response);
   }
   return res.status(400).json(response);
-
 });
 
 router.post("/login", async (req: Request, res: Response) => {
   const response = await loginService.loginUserFromForm(req.body);
   if (response.success) {
-    delete response.message.password;
     return res.status(200).json(response);
   }
   return res.status(400).json(response);
@@ -39,10 +37,6 @@ router.post("/google", async (req: Request, res: Response) => {
     req.body as googleDTO
   );
   if (response?.success) {
-    const userMessage = response.message as UserInterface;
-    if ('password' in userMessage) {
-      delete (userMessage as any).password;
-    }
     return res.status(200).json(response);
   } else if (
     response?.success === false &&

@@ -11,8 +11,9 @@ async function getProfileData(email: string) {
 
 async function modifyProfileData(user: UserInterface) {
   const response = await dbController.updateUser(user.dni, user);
+  delete response.message.password;
   if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: "Data updated successfully" };
+  return { success: true, message: response.message };
 }
 
 async function uploadProfilePicture(image: Express.Multer.File, dni: string) {
@@ -27,7 +28,7 @@ async function uploadProfilePicture(image: Express.Multer.File, dni: string) {
 
     if (!user.success) throw new Error(user.message);
 
-    return { success: true, message: "Profile picture added successfully" };
+    return { success: true, message: response.message };
   } catch (err: Error | any) {
     console.log(err);
     return { success: false, message: err.message };

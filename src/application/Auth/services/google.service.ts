@@ -6,7 +6,6 @@ async function validateGoogleUser(input: googleDTO) {
   try {
     const user = await registerService.registerUserFromGoogle(input);
     const client = await dbController.getUserByEmail(user.email);
-    console.log(client);
     if (
       client.success ||
       client.message === null ||

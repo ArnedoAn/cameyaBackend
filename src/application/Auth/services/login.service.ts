@@ -8,7 +8,6 @@ const secretKey = servicesConstanst.jwtSecret;
 
 async function loginUserFromForm(user: LoginDTO) {
   const client = await dbController.getUserByEmail(user.email);
-  console.log(client.success, client.message);
   if (!client.success || client.message === null) {
     return { success: false, message: "Invalid email or password" };
   }
@@ -17,6 +16,7 @@ async function loginUserFromForm(user: LoginDTO) {
   ) {
     return { success: false, message: "Invalid password" };
   }
+  delete client.message.password;
   return {
     success: true,
     message: client.message,
