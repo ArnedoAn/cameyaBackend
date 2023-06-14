@@ -181,7 +181,7 @@
                   "default": true
                 },
                 "message": {
-                  "$ref": "#/definitions/User" 
+                  "$ref": "#/definitions/User"
                 }
               }
             }
@@ -203,7 +203,7 @@
           }
         }
       },
-      "put":{
+      "put": {
         "tags": ["User"],
         "summary": "Update user's profile",
         "description": "Update user's profile",
@@ -218,8 +218,8 @@
               "$ref": "#/definitions/User"
             }
           }
-        ],	
-        "responses":{
+        ],
+        "responses": {
           "200": {
             "description": "User profile updated successfully",
             "schema": {
@@ -237,6 +237,760 @@
           },
           "400": {
             "description": "Error updating user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/user/profile/profile_picture": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user's profile picture",
+        "description": "Upload user's profile picture (This endpoint is the same to User and Worker)",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "profile_picture",
+            "in": "formData",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "dni",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile picture uploaded successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error uploading user profile picture",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/user/score": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user's score",
+        "description": "Recieve user's score",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User score obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining user score",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user's score",
+        "description": "Update user's score",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User score updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating user score",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/worker/profile": {
+      "post": {
+        "tags": ["Worker"],
+        "summary": "Get worker's profile",
+        "description": "Recieve worker's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/Worker"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Worker"],
+        "summary": "Update worker's profile",
+        "description": "Update worker's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Worker"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Worker profile updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/worker/score": {
+      "get": {
+        "tags": ["Worker"],
+        "summary": "Get worker's profile",
+        "description": "Recieve worker's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Worker score obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining worker score",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Worker"],
+        "summary": "Update worker's profile",
+        "description": "Update worker's profile",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wroker score updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating worker score",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Get all services",
+        "description": "Recieve all services",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Services obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/Service"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/create": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Create a new service",
+        "description": "Create a new service",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error creating service",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/suser": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Get services by user",
+        "description": "Get services by user",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "User DNI",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Services obtained successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Service"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/sworker": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Get services by worker",
+        "description": "Get services by worker",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Worker DNI",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Services obtained successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/scategory": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Get services by category",
+        "description": "Get services by category",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Category",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Services obtained successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Service"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/update": {
+      "put": {
+        "tags": ["Services"],
+        "summary": "Update service",
+        "description": "Update service",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Service",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating service",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/service/delete": {
+      "delete": {
+        "tags": ["Services"],
+        "summary": "Delete service",
+        "description": "Delete service",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Service",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service deleted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error deleting service",
             "schema": {
               "type": "object",
               "properties": {
@@ -353,10 +1107,69 @@
       }
     },
     "Service": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "date_programed": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "addres": {
+          "type": "string"
+        },
+        "hours": {
+          "type": "number",
+          "format": "float"
+        },
+        "total": {
+          "type": "number",
+          "format": "float"
+        },
+        "request_status": {
+          "type": "string"
+        },
+        "service_status": {
+          "type": "string"
+        },
+        "client_score": {
+          "type": "number",
+          "format": "float"
+        },
+        "worker_score": {
+          "type": "number",
+          "format": "float"
+        },
+        "service_description": {
+          "type": "string"
+        },
+        "client_dni": {
+          "type": "string"
+        },
+        "worker_dni": {
+          "type": "string"
+        },
+        "categories": {
+          "type": "string"
+        }
+      }
     },
     "Worker": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "user_dni": {
+          "type": "string",
+          "format": "id"
+        },
+        "service_type": {
+          "type": "string"
+        },
+        "service_detail": {
+          "type": "string"
+        },
+        "rate_hour": {
+          "type": "number",
+          "format": "float"
+        }
+      }
     },
     "GoogleDTO": {
       "type": "object",

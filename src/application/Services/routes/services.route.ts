@@ -16,19 +16,19 @@ router.post("/create", async (req, res) => {
   return res.status(200).json(response);
 });
 
-router.get("/suser", async (req, res) => {
+router.post("/suser", async (req, res) => {
   const response = await MngService.getServicesOfUser(req.body.id as string);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
 
-router.get("/sworker", async (req, res) => {
+router.post("/sworker", async (req, res) => {
   const response = await MngService.getServicesOfWorker(req.body.id as string);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
 
-router.get("/scategory", async (req, res) => {
+router.post("/scategory", async (req, res) => {
   const response = await MngService.getServicesByCategory(
     req.body.category as string
   );
