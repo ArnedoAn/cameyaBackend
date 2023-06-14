@@ -2,6 +2,7 @@ keys.json
 prisma/
 credentials.json
 updateServer.bat
+uploads/
 
 # Logs
 logs
