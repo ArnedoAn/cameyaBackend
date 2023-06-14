@@ -31,7 +31,7 @@ router.post(
     console.log(req.file);
     const { dni } = req.body;
     const response = await clientService.uploadProfilePicture(
-      req.file as Express.Multer.File,
+      req.file as any,
       dni as string
     );
     if (!response.success) return res.status(400).json(response);

@@ -1,17 +1,26 @@
 import multer from "multer";
 import { servicesConstanst } from "../../constants/services";
+import dbController from "../../data/controllers/db_controller";
+import e from "express";
 
 const upload = multer({ dest: "uploads/" });
 const cloudinary = servicesConstanst.cloudinary;
 const profilePictureFolder = "profile_pictures";
 
-async function uploadImage(image: Express.Multer.File, id: string) {
+async function uploadImage(file: any, id: string) {
   try {
-    const response = await cloudinary.uploader.upload(image.path, {
+    const response = await cloudinary.uploader.upload(file.path, {
       folder: profilePictureFolder,
       public_id: id,
     });
-    return { success: true, message: "Image uploaded", url: response.url };
+
+    const postResponse = await dbController.uploadProfilePicture(
+      id,
+      response.url
+    );
+    if (postResponse.success)
+      return { success: true, message: "Image uploaded", url: response.url };
+    else return { success: false, message: postResponse.message };
   } catch (err: Error | any) {
     console.log(err);
     return { success: false, message: err.message };

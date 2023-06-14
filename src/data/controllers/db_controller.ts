@@ -385,7 +385,7 @@ async function getUserByEmail(email: string) {
   }
 }
 
-async function updloadProfilePicture(dni: string, url: string) {
+async function uploadProfilePicture(dni: string, url: string) {
   try {
     const client = await prisma.user.update({
       where: {
@@ -422,7 +422,7 @@ export default {
   getServicesByCategory,
   getWorkersByCategory,
   getUserByEmail,
-  updloadProfilePicture,
+  uploadProfilePicture,
   getScoreService,
   getScoreUser,
   updateScoreWorker,
