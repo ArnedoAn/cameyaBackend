@@ -1,6 +1,12 @@
 import dbController from "../../../data/controllers/db_controller";
 import { ServiceInterface } from "../../../data/interfaces/models";
 
+async function getAllServices() {
+  const response = await dbController.getAllServices();
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: response.message };
+}
+
 async function createService(service: ServiceInterface) {
   const response = await dbController.createService(service);
   if (!response.success) return { success: false, message: response.message };
@@ -37,11 +43,12 @@ async function deleteService(id: string) {
   return { success: true, message: "Service deleted succesfully" };
 }
 
-export default {  
+export default {
   createService,
   getServicesOfUser,
   getServicesOfWorker,
   getServicesByCategory,
   updateService,
   deleteService,
+  getAllServices
 };
