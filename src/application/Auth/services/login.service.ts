@@ -1,13 +1,13 @@
-import dbController from "../../../data/controllers/db_controller";
 import { LoginDTO } from "../../../data/interfaces/auth_interfaces/login_dto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { servicesConstanst } from "../../../constants/services";
+import userController from "../../../data/controllers/database/User.controller";
 
 const secretKey = servicesConstanst.jwtSecret;
 
 async function loginUserFromForm(user: LoginDTO) {
-  const client = await dbController.getUserByEmail(user.email);
+  const client = await userController.getUserByEmail(user.email);
   if (!client.success || client.message === null) {
     return { success: false, message: "Invalid email or password" };
   }

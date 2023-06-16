@@ -1,11 +1,12 @@
 import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
-import dbController from "../../../data/controllers/db_controller";
+import dbController from "../../../data/controllers/database/db_controller";
 import registerService from "./register.service";
+import userController from "../../../data/controllers/database/User.controller";
 
 async function validateGoogleUser(input: googleDTO) {
   try {
     const user = await registerService.registerUserFromGoogle(input);
-    const client = await dbController.getUserByEmail(user.email);
+    const client = await userController.getUserByEmail(user.email);
     if (
       client.success ||
       client.message === null ||

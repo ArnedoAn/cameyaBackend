@@ -370,6 +370,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "service_id": {
+                  "type": "number"
+                },
                 "dni": {
                   "type": "string"
                 },
@@ -581,6 +584,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "service_id": {
+                  "type": "number"
+                },
                 "dni": {
                   "type": "string"
                 },

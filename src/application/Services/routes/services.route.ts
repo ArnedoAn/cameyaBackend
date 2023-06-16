@@ -5,7 +5,7 @@ import { ServiceInterface } from "../../../data/interfaces/models";
 const router = express.Router(); // Route: /services
 
 router.get("/", async (req, res) => {
-  const response = await MngService.getAllServices();
+  const response = await MngService.getServicesNotAssigned();
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });

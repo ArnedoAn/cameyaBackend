@@ -1,11 +1,12 @@
-import dbController from "../../../data/controllers/db_controller";
 import { UserInterface as User } from "../../../data/interfaces/models";
 import { WorkerInterface as Worker } from "../../../data/interfaces/models";
 import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
 import bcrypt from "bcrypt";
+import workerController from "../../../data/controllers/database/Worker.controller";
+import userController from "../../../data/controllers/database/User.controller";
 
 async function registerUserFromForm(user: any) {
-  const findUser = await dbController.getUserByEmail(user.email);
+  const findUser = await userController.getUserByEmail(user.email);
 
   if (findUser.success && findUser.message !== null) {
     return { success: false, message: "User already registered" };
@@ -23,10 +24,10 @@ async function registerUserFromForm(user: any) {
       profile_picture: user.profile_picture,
       birth_date: user.birth_date,
       score: user.score,
-      is_worker: user.is_worker
+      is_worker: user.is_worker,
     } as User;
 
-    const responseU = await dbController.createUser(userBase);
+    const responseU = await userController.createUser(userBase);
 
     if (user.is_worker) {
       const worker = {
@@ -36,18 +37,17 @@ async function registerUserFromForm(user: any) {
         rate_hour: user.rate_hour,
       } as Worker;
 
-      const responseW = await dbController.createWorker(worker);
+      const responseW = await workerController.createWorker(worker);
 
       const result = responseU.success && responseW.success;
       if (result) {
         return { success: true, message: "User registered successfully" };
-      }else{
+      } else {
         return { success: false, message: "Error registering user" };
       }
     }
   }
 }
-
 
 async function registerUserFromGoogle(user: googleDTO) {
   const userToDB: User = {
@@ -73,7 +73,7 @@ async function encryptPassword(pwd: string) {
 }
 
 async function isRegistered(email: string) {
-  const response = await dbController.getUserByEmail(email);
+  const response = await userController.getUserByEmail(email);
   console.log(response);
   if (
     (response.success && response.message === null) ||

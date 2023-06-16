@@ -1,8 +1,14 @@
-import dbController from "../../../data/controllers/db_controller";
+import dbController from "../../../data/controllers/database/services.controller";
 import { ServiceInterface } from "../../../data/interfaces/models";
 
 async function getAllServices() {
   const response = await dbController.getAllServices();
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: response.message };
+}
+
+async function getServicesNotAssigned() {
+  const response = await dbController.getServicesNotAssigned();
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: response.message };
 }
@@ -50,5 +56,6 @@ export default {
   getServicesByCategory,
   updateService,
   deleteService,
-  getAllServices
+  getAllServices,
+  getServicesNotAssigned
 };

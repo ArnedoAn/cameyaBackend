@@ -19,9 +19,10 @@ router.put("/profile", async (req, res) => {
 });
 
 router.put("/score", async (req, res) => {
-  const { id, score } = req.body;
-  const response = await workerService.setScoreUser(
-    id as number,
+  const { service_id, dni, score } = req.body;
+  const response = await workerService.setScoreWorker(
+    service_id as number,
+    dni as string,
     score as number
   );
   if (!response.success) return res.status(400).json(response);

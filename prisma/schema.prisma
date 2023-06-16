@@ -12,6 +12,16 @@ model Admin {
   password String
 }
 
+// 0: No asignado
+// 1: Asignado
+// 2: En proceso
+// 3: Finalizado
+model Status {
+  id      Int       @id
+  value   String
+  Service Service[]
+}
+
 model Service {
   id                  Int      @id @default(autoincrement())
   date_programed      DateTime
@@ -19,16 +29,16 @@ model Service {
   date_assignment     DateTime @default(now())
   hours               Float
   total               Float
-  request_status      String
-  service_status      String
-  client_score        Float
-  worker_score        Float
+  service_status      Int
+  client_score        Float    @default(0)
+  worker_score        Float    @default(0)
   service_description String
   client_dni          String
-  worker_dni          String
+  worker_dni          String?   
   categories          String
   User                User     @relation(fields: [client_dni], references: [dni], onDelete: Cascade)
-  Worker              Worker   @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
+  Worker              Worker?   @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
+  Status              Status   @relation(fields: [service_status], references: [id])
 }
 
 model User {

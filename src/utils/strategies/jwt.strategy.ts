@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import db_controller from "../../data/controllers/db_controller";
 import { servicesConstanst } from "../../constants/services";
+import userController from "../../data/controllers/database/User.controller";
 
 const secretKey = servicesConstanst.jwtSecret;
 
@@ -17,7 +17,7 @@ interface JwtPayload {
 
 const verifyCallback = async (jwtPayload: JwtPayload, done: any) => {
   try {
-    const user = await db_controller.getUserByEmail(jwtPayload.email);
+    const user = await userController.getUserByEmail(jwtPayload.email);
     if (user) {
       return done(null, user);
     }

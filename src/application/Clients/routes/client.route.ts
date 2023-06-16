@@ -40,9 +40,10 @@ router.post(
 );
 
 router.put("/score", async (req, res) => {
-  const { id, score } = req.body;
-  const response = await clientService.setScoreWorker(
-    id as number,
+  const { service_id, dni, score } = req.body;
+  const response = await clientService.setScoreUser(
+    service_id as number,
+    dni as string,
     score as number
   );
   if (!response.success) return res.status(400).json(response);
