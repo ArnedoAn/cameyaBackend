@@ -1,4 +1,4 @@
-import dbController from "../../../data/controllers/database/services.controller";
+import dbController from "../../../data/controllers/database/Services.controller";
 import { ServiceInterface } from "../../../data/interfaces/models";
 
 async function getAllServices() {
