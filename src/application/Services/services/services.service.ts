@@ -1,16 +1,17 @@
 import dbController from "../../../data/controllers/database/Services.controller";
 import { ServiceInterface } from "../../../data/interfaces/models";
+import { ServiceDTOPOST, ServiceDTOUPDATE, ServiceDTOGET } from "../../../data/interfaces/DTO/service.dto";
 
 async function getAllServices() {
   const response = await dbController.getAllServices();
   if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: response.message };
+  return { success: true, message: response.message as ServiceDTOGET[] };
 }
 
 async function getServicesNotAssigned() {
   const response = await dbController.getServicesNotAssigned();
   if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: response.message };
+  return { success: true, message: response.message as ServiceDTOGET[] };
 }
 
 async function createService(service: ServiceInterface) {
@@ -37,8 +38,8 @@ async function getServicesByCategory(category: string) {
   return { success: true, message: response.message };
 }
 
-async function updateService(service: ServiceInterface) {
-  const response = await dbController.updateService(service.id, service);
+async function updateService(service: ServiceDTOUPDATE) {
+  const response = await dbController.updateService(service.id!, service);
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: "Service updated succesfully" };
 }

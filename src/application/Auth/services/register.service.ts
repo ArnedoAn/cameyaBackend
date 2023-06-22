@@ -4,6 +4,7 @@ import { googleDTO } from "../../../data/interfaces/auth_interfaces/google_dto";
 import bcrypt from "bcrypt";
 import workerController from "../../../data/controllers/database/Worker.controller";
 import userController from "../../../data/controllers/database/User.controller";
+import { servicesConstanst } from "../../../constants/services";
 
 async function registerUserFromForm(user: any) {
   const findUser = await userController.getUserByEmail(user.email);
@@ -21,7 +22,8 @@ async function registerUserFromForm(user: any) {
       password: user.password,
       phone: user.phone,
       address: user.address,
-      profile_picture: user.profile_picture,
+      profile_picture:
+        user.profile_picture ?? servicesConstanst.defaultProfilePicture,
       birth_date: user.birth_date,
       score: user.score,
       is_worker: user.is_worker,
@@ -46,6 +48,8 @@ async function registerUserFromForm(user: any) {
         return { success: false, message: "Error registering user" };
       }
     }
+
+    return responseU;
   }
 }
 

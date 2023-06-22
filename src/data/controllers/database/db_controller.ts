@@ -167,7 +167,7 @@ async function getWorkersWhere(data: any) {
 }
 
 // SERVICE BASICS FUNCTIONS
-async function createService(service: Service) {
+async function createService(service: any) {
   try {
     const newService = await prisma.service.create({
       data: service,
@@ -228,6 +228,7 @@ async function getAllServicesWhere(data: any) {
             last_name: true,
             email: true,
             profile_picture: true,
+            score: true,
           },
         },
         Worker: {

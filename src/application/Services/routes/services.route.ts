@@ -1,5 +1,6 @@
 import express from "express";
 import MngService from "../services/services.service";
+import { ServiceDTOPOST, ServiceDTOUPDATE } from "../../../data/interfaces/DTO/service.dto";
 import { ServiceInterface } from "../../../data/interfaces/models";
 
 const router = express.Router(); // Route: /services
@@ -37,7 +38,7 @@ router.post("/scategory", async (req, res) => {
 });
 
 router.put("/update", async (req, res) => {
-  const response = await MngService.updateService(req.body as ServiceInterface);
+  const response = await MngService.updateService(req.body as ServiceDTOUPDATE);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });

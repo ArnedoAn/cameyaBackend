@@ -11,4 +11,5 @@ Cloudinary.config({
 export const servicesConstanst = {
   cloudinary: Cloudinary,
   jwtSecret: process.env.JWT_SECRET,
+  defaultProfilePicture: "https://res.cloudinary.com/aarnedoe/image/upload/v1687412504/profile_pictures/w1_ibtwas.jpg"
 };

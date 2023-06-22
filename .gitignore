@@ -3,6 +3,7 @@ prisma/
 credentials.json
 updateServer.bat
 uploads/
+package-lock.json
 
 # Logs
 logs

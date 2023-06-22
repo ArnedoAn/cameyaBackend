@@ -27,7 +27,7 @@ async function getServicesOfWorker(dni: string) {
 
 async function getServicesByCategory(category: string) {
   const response = await getAllServicesWhere({
-    service_type: category,
+    categories: [category],
   });
   return response;
 }

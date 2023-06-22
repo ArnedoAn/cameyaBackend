@@ -6,7 +6,7 @@
     "description": "API for exclusive consumption by the Cameya frontend or third parties associated with the Cameya project, owned by Cameya SAS"
   },
   "paths": {
-    "auth/register": {
+    "/auth/register": {
       "post": {
         "tags": ["Authentication"],
         "summary": "User registration",
@@ -33,7 +33,7 @@
         }
       }
     },
-    "auth/login": {
+    "/auth/login": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Login",
@@ -96,7 +96,7 @@
         }
       }
     },
-    "auth/google": {
+    "/auth/google": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Google Login",
@@ -148,7 +148,7 @@
         }
       }
     },
-    "api/user/profile": {
+    "/api/user/profile": {
       "post": {
         "tags": ["User"],
         "summary": "Get user's profile",
@@ -253,7 +253,7 @@
         }
       }
     },
-    "api/user/profile/profile_picture": {
+    "/api/user/profile/profile_picture": {
       "post": {
         "tags": ["User"],
         "summary": "Upload user's profile picture",
@@ -308,7 +308,7 @@
         }
       }
     },
-    "api/user/score": {
+    "/api/user/score": {
       "get": {
         "tags": ["User"],
         "summary": "Get user's score",
@@ -417,7 +417,7 @@
         }
       }
     },
-    "api/worker/profile": {
+    "/api/worker/profile": {
       "post": {
         "tags": ["Worker"],
         "summary": "Get worker's profile",
@@ -522,7 +522,7 @@
         }
       }
     },
-    "api/worker/score": {
+    "/api/worker/score": {
       "get": {
         "tags": ["Worker"],
         "summary": "Get worker's profile",
@@ -631,7 +631,7 @@
         }
       }
     },
-    "api/service": {
+    "/api/service": {
       "get": {
         "tags": ["Services"],
         "summary": "Get all services",
@@ -672,7 +672,7 @@
         }
       }
     },
-    "api/service/create": {
+    "/api/service/create": {
       "post": {
         "tags": ["Services"],
         "summary": "Create a new service",
@@ -685,7 +685,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Service"
+              "$ref": "#/definitions/ServiceMinimumPost"
             }
           }
         ],
@@ -723,7 +723,7 @@
         }
       }
     },
-    "api/service/suser": {
+    "/api/service/suser": {
       "post": {
         "tags": ["Services"],
         "summary": "Get services by user",
@@ -782,7 +782,7 @@
         }
       }
     },
-    "api/service/sworker": {
+    "/api/service/sworker": {
       "post": {
         "tags": ["Services"],
         "summary": "Get services by worker",
@@ -815,7 +815,10 @@
                   "default": true
                 },
                 "message": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Service"
+                  }
                 }
               }
             }
@@ -838,7 +841,7 @@
         }
       }
     },
-    "api/service/scategory": {
+    "/api/service/scategory": {
       "post": {
         "tags": ["Services"],
         "summary": "Get services by category",
@@ -897,7 +900,7 @@
         }
       }
     },
-    "api/service/update": {
+    "/api/service/update": {
       "put": {
         "tags": ["Services"],
         "summary": "Update service",
@@ -957,7 +960,7 @@
         }
       }
     },
-    "api/service/delete": {
+    "/api/service/delete": {
       "delete": {
         "tags": ["Services"],
         "summary": "Delete service",
@@ -1115,46 +1118,143 @@
     "Service": {
       "type": "object",
       "properties": {
-        "date_programed": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 7
+        },
+        "date_programmed": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example": "2023-06-16T10:00:00.000Z"
         },
-        "addres": {
-          "type": "string"
+        "address": {
+          "type": "string",
+          "example": "Dirección del servicio 1"
         },
-        "hours": {
+        "total_price": {
           "type": "number",
-          "format": "float"
-        },
-        "total": {
-          "type": "number",
-          "format": "float"
-        },
-        "request_status": {
-          "type": "string"
+          "format": "double",
+          "example": 100
         },
         "service_status": {
-          "type": "string"
+          "type": "string",
+          "example": "Not Assigned"
         },
         "client_score": {
-          "type": "number",
-          "format": "float"
+          "type": "integer",
+          "example": 0
         },
         "worker_score": {
-          "type": "number",
-          "format": "float"
+          "type": "integer",
+          "example": 0
         },
         "service_description": {
-          "type": "string"
+          "type": "string",
+          "example": "Descripción del servicio 1"
         },
         "client_dni": {
-          "type": "string"
+          "type": "string",
+          "example": "123456789"
         },
         "worker_dni": {
-          "type": "string"
+          "type": "string",
+          "example": "0"
+        },
+        "service_title": {
+          "type": "string",
+          "nullable": true
         },
         "categories": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "Usuario 1"
+            },
+            "last_name": {
+              "type": "string",
+              "example": "Apellido 1"
+            },
+            "email": {
+              "type": "string",
+              "example": "usuario1@example.com"
+            },
+            "profile_picture": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://www.example.com/profile_picture.jpg"
+            },
+            "score": {
+              "type": "integer",
+              "example": 0
+            }
+          }
+        },
+        "Worker": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "NN"
+            },
+            "last_name": {
+              "type": "string",
+              "example": "NN"
+            },
+            "email": {
+              "type": "string",
+              "example": "NN"
+            },
+            "profile_picture": {
+              "type": "string",
+              "example": "NN"
+            }
+          }
+        }
+      }
+    },
+    "ServiceMinimumPost": {
+      "type": "object",
+      "properties": {
+        "date_programmed": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-06-16T10:00:00.000Z"
+        },
+        "address": {
+          "type": "string",
+          "example": "Dirección del servicio 1"
+        },
+        "total_price": {
+          "type": "number",
+          "format": "float",
+          "example": 100
+        },
+        "service_status": {
+          "type": "integer",
+          "example": 0
+        },
+        "service_description": {
+          "type": "string",
+          "example": "Descripción del servicio 1"
+        },
+        "client_dni": {
+          "type": "string",
+          "example": "123456789"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": ["Plomería", "Carpintería"]
         }
       }
     },
