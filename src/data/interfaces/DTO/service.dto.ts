@@ -38,4 +38,10 @@ export interface ServiceDTOGET {
   };
 }
 
+export interface WorkerPostulationDTO {
+  id: number;
+  worker_postulations: string[];
+  worker_dni: string;
+}
+
 export interface ServiceDTOUPDATE extends Partial<ServiceInterface> {}

@@ -1241,6 +1241,10 @@
           "type": "integer",
           "example": 0
         },
+        "service_title": {
+          "type": "string",
+          "example": "Título del servicio 1"
+        },
         "service_description": {
           "type": "string",
           "example": "Descripción del servicio 1"

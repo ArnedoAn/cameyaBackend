@@ -8,6 +8,23 @@ const updateService = db_controller.updateService;
 const getServiceWhere = db_controller.getServiceWhere;
 const deleteService = db_controller.deleteService;
 
+async function addWorkerPostulation(
+  id: number,
+  worker_postulations: string[],
+  worker_dni: string
+) {
+  const response = await updateService(id, {
+    worker_dni: [...worker_postulations, worker_dni],
+    service_status: Status["Not Assigned"],
+  });
+  return response;
+}
+
+async function getService(id: number) {
+  const response = await getServiceWhere({ id });
+  return response;
+}
+
 async function getServicesNotAssigned() {
   const response = await getAllServicesWhere({
     service_status: Status["Not Assigned"],
@@ -67,4 +84,6 @@ export default {
   updateScoreUser,
   getScoreService,
   deleteService,
+  addWorkerPostulation,
+  getService,
 };
