@@ -25,9 +25,11 @@ async function getServicesOfWorker(dni: string) {
   return response;
 }
 
-async function getServicesByCategory(category: string) {
+async function getServicesByCategory(categories: string[]) {
   const response = await getAllServicesWhere({
-    categories: [category],
+    categories: {
+      hasSome: categories,
+    },
   });
   return response;
 }

@@ -31,7 +31,7 @@ router.post("/sworker", async (req, res) => {
 
 router.post("/scategory", async (req, res) => {
   const response = await MngService.getServicesByCategory(
-    req.body.category as string
+    req.body.categories as string[]
   );
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);

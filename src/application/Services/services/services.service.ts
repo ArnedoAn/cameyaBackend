@@ -32,8 +32,8 @@ async function getServicesOfWorker(id: string) {
   return { success: true, message: response.message };
 }
 
-async function getServicesByCategory(category: string) {
-  const response = await dbController.getServicesByCategory(category);
+async function getServicesByCategory(categories: string[]) {
+  const response = await dbController.getServicesByCategory(categories);
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: response.message };
 }
