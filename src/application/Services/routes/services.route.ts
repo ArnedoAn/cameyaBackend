@@ -40,13 +40,14 @@ router.post("/create", async (req, res) => {
 });
 
 router.post("/suser", async (req, res) => {
-  const response = await MngService.getServicesOfUser(req.body.id as string);
+  const response = await MngService.getServicesOfUser(req.body.dni as string);
+  console.log(req.body.dni);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
 
 router.post("/sworker", async (req, res) => {
-  const response = await MngService.getServicesOfWorker(req.body.id as string);
+  const response = await MngService.getServicesOfWorker(req.body.dni as string);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
@@ -66,7 +67,7 @@ router.put("/update", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
-  const response = await MngService.deleteService(req.body.id as string);
+  const response = await MngService.deleteService(req.body.dni as string);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });

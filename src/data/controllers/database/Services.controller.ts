@@ -33,7 +33,7 @@ async function getServicesNotAssigned() {
 }
 
 async function getServicesOfUser(dni: string) {
-  const response = await getAllServicesWhere({ user_dni: dni });
+  const response = await getAllServicesWhere({ client_dni: dni });
   return response;
 }
 
