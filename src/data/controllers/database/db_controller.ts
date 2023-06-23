@@ -4,6 +4,7 @@ import {
   WorkerInterface as Worker,
   ServiceInterface as Service,
   ServiceStatus as Status,
+  WorkerPostulationsInterface as workerPostulations,
 } from "../../interfaces/models";
 
 const prisma = constants.prisma;
@@ -179,9 +180,14 @@ async function createService(service: any) {
   }
 }
 
-async function getAllServices() {
+async function getAllServices(page: number) {
+  const pageSize = 10;
+  const skip = (page - 1) * pageSize;
+
   try {
     const services = await prisma.service.findMany({
+      skip: skip,
+      take: pageSize,
       include: {
         User: {
           select: {
@@ -206,16 +212,19 @@ async function getAllServices() {
         Status: true,
       },
     });
+
     const mappedServices = services.map((service) => ({
       ...service,
       service_status: service.Status?.value, // Utilizar el valor de "value" en lugar del ID
     }));
+
     return { success: true, message: mappedServices };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
   }
 }
+
 
 async function getAllServicesWhere(data: any) {
   try {
@@ -375,6 +384,20 @@ async function createWorkerPosulation(workerPosulation: any) {
   }
 }
 
+async function deleteWorkerPosulation(id_worker: number, id_service: number, id: number) {
+  try {
+    const workerPosulation = await prisma.workerPostulations.delete({
+      where: {
+        id: id,
+      },
+    });
+    return { success: true, message: workerPosulation };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 async function getAllWorkerPosulations(data: any) {
   try {
     const workerPosulations = await prisma.workerPostulations.findMany({
@@ -476,5 +499,6 @@ export default {
   getWorkersWhere,
   selectServices,
   createWorkerPosulation,
+  deleteWorkerPosulation,
   getAllWorkerPosulations,
 };

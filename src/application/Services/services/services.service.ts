@@ -6,8 +6,8 @@ import {
   ServiceDTOGET,
 } from "../../../data/interfaces/DTO/service.dto";
 
-async function getAllServices() {
-  const response = await dbController.getAllServices();
+async function getAllServices(page: number) {
+  const response = await dbController.getAllServices(page);
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: response.message as ServiceDTOGET[] };
 }
@@ -74,6 +74,17 @@ async function addWorkerPostulation(
   return { success: true, message: "Worker postulation added succesfully" };
 }
 
+async function updateServiceNotAssigned(id_service: number, id_worker: number, id: number) {
+  const response = await dbController.updateServiceNotAssigned(
+    id_service,
+    id_worker,
+    id
+  );
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: "Service updated succesfully" };
+}
+
+
 export default {
   createService,
   getServicesOfUser,
@@ -84,5 +95,6 @@ export default {
   getAllServices,
   getServicesNotAssigned,
   addWorkerPostulation,
+  updateServiceNotAssigned,
   getService,
 };

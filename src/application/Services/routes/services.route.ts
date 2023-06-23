@@ -9,7 +9,7 @@ import { ServiceInterface } from "../../../data/interfaces/models";
 const router = express.Router(); // Route: /services
 
 router.get("/", async (req, res) => {
-  const response = await MngService.getServicesNotAssigned();
+  const response = await MngService.getAllServices(req.body.page as number);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
@@ -68,6 +68,16 @@ router.put("/update", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   const response = await MngService.deleteService(req.body.dni as string);
+  if (!response.success) return res.status(400).json(response);
+  return res.status(200).json(response);
+});
+
+router.put("/updatePostulation", async (req, res) => {
+  const response = await MngService.updateServiceNotAssigned(
+    req.body.id_service as number,
+    req.body.id_worker as number,
+    req.body.id as number
+  );
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
