@@ -25,9 +25,7 @@ const swaggerPath = path.join(
 
 const swaggerOptions = {
   customSiteTitle: "Cameya API",
-  swaggerOptions: {
-    favIcon: constants.icon,
-  },
+  customfavIcon: constants.icon,
 };
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath), swaggerOptions));
