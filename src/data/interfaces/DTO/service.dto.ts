@@ -38,6 +38,20 @@ export interface ServiceDTOGET {
   };
 }
 
+export interface ServiceDTOGETALL {
+  id: number;
+  User: {
+    name: string;
+    last_name: string;
+    profile_picture: string;
+    score: number;
+  };
+  service_title: string;
+  service_description: string;
+  total_price: number;
+  date_programmed: Date;
+}
+
 export interface WorkerPostulationDTO {
   id: number;
   worker_postulations: string[];

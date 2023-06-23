@@ -12,28 +12,29 @@ model Admin {
   password String
 }
 
-model Status {
-  id      Int       @id
-  value   String
-  Service Service[]
-}
-
 model Service {
-  id                  Int      @id @default(autoincrement())
+  id                  Int                  @id @default(autoincrement())
   date_programmed     DateTime
   address             String
   total_price         Float
   service_status      Int
-  client_score        Float    @default(0)
-  worker_score        Float    @default(0)
+  client_score        Float                @default(0)
+  worker_score        Float                @default(0)
   service_description String
   client_dni          String
   worker_dni          String?
   service_title       String?
   categories          String[]
-  User                User     @relation(fields: [client_dni], references: [dni], onDelete: Cascade)
-  Status              Status   @relation(fields: [service_status], references: [id])
-  Worker              Worker?  @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
+  User                User                 @relation(fields: [client_dni], references: [dni], onDelete: Cascade)
+  Status              Status               @relation(fields: [service_status], references: [id])
+  Worker              Worker?              @relation(fields: [worker_dni], references: [user_dni], onDelete: Cascade)
+  WorkerPostulations  WorkerPostulations[]
+}
+
+model Status {
+  id      Int       @id
+  value   String
+  Service Service[]
 }
 
 model User {
@@ -54,10 +55,19 @@ model User {
 }
 
 model Worker {
-  user_dni       String    @id
-  service_type   String
-  service_detail String
-  rate_hour      Float
-  Service        Service[]
-  User           User      @relation(fields: [user_dni], references: [dni], onDelete: Cascade)
+  user_dni           String               @id
+  service_type       String
+  service_detail     String
+  rate_hour          Float
+  Service            Service[]
+  User               User                 @relation(fields: [user_dni], references: [dni], onDelete: Cascade)
+  WorkerPostulations WorkerPostulations[]
+}
+
+model WorkerPostulations {
+  service_id Int
+  worker_dni String
+  id         Int     @id @default(autoincrement())
+  Service    Service @relation(fields: [service_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Service_fk")
+  Worker     Worker  @relation(fields: [worker_dni], references: [user_dni], onDelete: NoAction, onUpdate: NoAction, map: "Worker_fk")
 }

@@ -318,6 +318,21 @@ async function getServiceWhere(data: any) {
   }
 }
 
+async function selectServices(id: number, data: any) {
+  try {
+    const response = await prisma.service.findMany({
+      where: {
+        id: id,
+      },
+      select: data,
+    });
+    return { success: true, message: response };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 async function updateService(id: number, data: any) {
   try {
     const newService = await prisma.service.update({
@@ -341,6 +356,35 @@ async function deleteService(id: string) {
       },
     });
     return { success: true, message: service };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+// WORKERPOSULATIONS BASICS FUNCTIONS
+async function createWorkerPosulation(workerPosulation: any) {
+  try {
+    const newWorkerPosulation = await prisma.workerPostulations.create({
+      data: workerPosulation,
+    });
+    return { success: true, message: newWorkerPosulation };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+async function getAllWorkerPosulations(data: any) {
+  try {
+    const workerPosulations = await prisma.workerPostulations.findMany({
+      select: {
+        worker_dni: true,
+      },
+      where: data,
+    });
+
+    return { success: true, message: workerPosulations };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -430,4 +474,7 @@ export default {
   getUsersWhere,
   getWorkerWhere,
   getWorkersWhere,
+  selectServices,
+  createWorkerPosulation,
+  getAllWorkerPosulations,
 };

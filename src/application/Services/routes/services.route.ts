@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
   return res.status(200).json(response);
 });
 
-router.get("/postulation", async (req, res) => {
+router.post("/postulation", async (req, res) => {
   const { id, worker_postulations, worker_dni } =
     req.body as WorkerPostulationDTO;
   const response = await MngService.addWorkerPostulation(

@@ -20,6 +20,16 @@ async function addWorkerPostulation(
   return response;
 }
 
+async function selectServices(id:number, data:any){
+  const response = await selectServices(id, {
+    id: true,
+    service_title: true,
+    service_description: true,
+    total_price: true,
+    date_programmed: true,
+  })
+}
+
 async function getService(id: number) {
   const response = await getServiceWhere({ id });
   return response;
