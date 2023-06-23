@@ -6,10 +6,10 @@ import {
 } from "../../../data/interfaces/DTO/service.dto";
 import { ServiceInterface } from "../../../data/interfaces/models";
 
-const router = express.Router(); // Route: /services
+const router = express.Router(); // Route: /service
 
-router.get("/", async (req, res) => {
-  const response = await MngService.getAllServices(req.body.page as number);
+router.get("/all/:page", async (req, res) => {
+  const response = await MngService.getAllServices(Number(req.params.page) as number);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
@@ -67,7 +67,7 @@ router.put("/update", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
-  const response = await MngService.deleteService(req.body.dni as string);
+  const response = await MngService.deleteService(req.body.id as string);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });

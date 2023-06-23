@@ -23,7 +23,14 @@ const swaggerPath = path.join(
   "swagger.json"
 );
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath)));
+const swaggerOptions = {
+  customSiteTitle: "Cameya API",
+  swaggerOptions: {
+    favIcon: constants.icon,
+  },
+};
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath), swaggerOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

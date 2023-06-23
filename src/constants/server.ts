@@ -6,4 +6,7 @@ export const serverConstants = {
   session: {
     secret: "secret",
   },
+  icon:
+    process.env.ICON ||
+    "https://res.cloudinary.com/aarnedoe/image/upload/v1687557738/siteImages/chico-gel_fvxke0.ico",
 };

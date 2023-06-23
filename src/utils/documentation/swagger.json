@@ -631,16 +631,71 @@
         }
       }
     },
-    "/api/service": {
+    "/api/service/all/{page}": {
       "get": {
         "tags": ["Services"],
-        "summary": "Get all services",
-        "description": "Recieve all services",
-        "consumes": ["application/json"],
+        "summary": "Get all services by page",
+        "description": "Recieve all services by page",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "type": "number"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Services obtained",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "$ref": "#/definitions/ServiceAllGet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/{id}":{
+      "get": {
+        "tags": ["Services"],
+        "summary": "Get service by id",
+        "description": "Recieve service by id",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service obtained",
             "schema": {
               "type": "object",
               "properties": {
@@ -655,7 +710,7 @@
             }
           },
           "400": {
-            "description": "Error obtaining services",
+            "description": "Error obtaining service",
             "schema": {
               "type": "object",
               "properties": {
@@ -825,6 +880,68 @@
           },
           "400": {
             "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/updatePostulation": {
+      "put": {
+        "tags": ["Services"],
+        "summary": "Update service postulation",
+        "description": "Update service postulation",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Postulation Input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "id_worker": {
+                  "type": "string"
+                },
+                "id_service": {
+                  "type": "string"
+                }
+              }
+            }
+          }  
+        ],
+        "responses": {
+          "200": {
+            "description": "Service updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating service",
             "schema": {
               "type": "object",
               "properties": {
@@ -1259,6 +1376,62 @@
             "type": "string"
           },
           "example": ["Plomería", "Carpintería"]
+        }
+      }
+    },
+    "ServiceAllGet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 7
+        },
+        "date_programmed": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-06-16T10:00:00.000Z"
+        },
+        "total_price": {
+          "type": "number",
+          "format": "double",
+          "example": 100
+        },
+        "service_description": {
+          "type": "string",
+          "example": "Descripción del servicio 1"
+        },
+        "service_title": {
+          "type": "string",
+          "nullable": true
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "Usuario 1"
+            },
+            "last_name": {
+              "type": "string",
+              "example": "Apellido 1"
+            },
+            "profile_picture": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://www.example.com/profile_picture.jpg"
+            },
+            "score": {
+              "type": "integer",
+              "example": 0
+            }
+          }
         }
       }
     },
