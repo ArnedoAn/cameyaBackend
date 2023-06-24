@@ -305,6 +305,12 @@ async function getServiceWhere(data: any) {
             value: true,
           },
         },
+        WorkerPostulations: {
+          select: {
+            worker_dni: true,
+            service_id: true,
+          },
+        },  
       },
     });
 
@@ -477,20 +483,6 @@ async function setScoreWorker(id: string, dni: string, score: number) {
   }
 }
 
-async function getPostulations(id_service: number) {
-  try {
-    const postulations = await prisma.workerPostulations.findMany({
-      where: {
-        service_id: id_service,
-      },
-    });
-    return { success: true, message: postulations };
-  } catch (error: Error | any) {
-    console.log(error);
-    return { success: false, message: error.message };
-  }
-}
-
 export default {
   createUser,
   createWorker,
@@ -515,5 +507,4 @@ export default {
   createWorkerPosulation,
   deleteWorkerPosulation,
   getAllWorkerPosulations,
-  getPostulations,
 };

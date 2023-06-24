@@ -81,11 +81,4 @@ router.put("/updatePostulation", async (req, res) => {
   return res.status(200).json(response);
 });
 
-router.get("/getPostulations/:id", async (req, res) => {
-  const id = req.params.id;
-  const response = await MngService.getPostulations(Number(id) as number);
-  if (!response.success) return res.status(400).json(response);
-  return res.status(200).json(response);
-});
-
 export default router;

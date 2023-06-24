@@ -83,13 +83,6 @@ async function updateServiceNotAssigned(id_service: number, id_worker: string) {
   return { success: true, message: "Service updated succesfully" };
 }
 
-async function getPostulations(id_service: number) {
-  const response = await dbController.getPostulationsOfService(id_service);
-  if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: response.message };
-}
-
-
 export default {
   createService,
   getServicesOfUser,
@@ -102,5 +95,4 @@ export default {
   addWorkerPostulation,
   updateServiceNotAssigned,
   getService,
-  getPostulations
 };
