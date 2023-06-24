@@ -75,9 +75,15 @@ router.delete("/delete", async (req, res) => {
 router.put("/updatePostulation", async (req, res) => {
   const response = await MngService.updateServiceNotAssigned(
     req.body.id_service as number,
-    req.body.id_worker as number,
-    req.body.id as number
+    req.body.id_worker as string,
   );
+  if (!response.success) return res.status(400).json(response);
+  return res.status(200).json(response);
+});
+
+router.get("/getPostulations/:id", async (req, res) => {
+  const id = req.params.id;
+  const response = await MngService.getPostulations(Number(id) as number);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });

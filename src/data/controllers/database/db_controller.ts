@@ -348,7 +348,7 @@ async function updateService(id: number, data: any) {
       where: {
         id: id,
       },
-      data,
+      data: data,
     });
     return { success: true, message: newService };
   } catch (error: Error | any) {
@@ -384,11 +384,11 @@ async function createWorkerPosulation(workerPosulation: any) {
   }
 }
 
-async function deleteWorkerPosulation(id_worker: number, id_service: number, id: number) {
+async function deleteWorkerPosulation(id_service: number) {
   try {
-    const workerPosulation = await prisma.workerPostulations.delete({
+    const workerPosulation = await prisma.workerPostulations.deleteMany({
       where: {
-        id: id,
+        service_id: id_service
       },
     });
     return { success: true, message: workerPosulation };
@@ -477,6 +477,20 @@ async function setScoreWorker(id: string, dni: string, score: number) {
   }
 }
 
+async function getPostulations(id_service: number) {
+  try {
+    const postulations = await prisma.workerPostulations.findMany({
+      where: {
+        service_id: id_service,
+      },
+    });
+    return { success: true, message: postulations };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 export default {
   createUser,
   createWorker,
@@ -501,4 +515,5 @@ export default {
   createWorkerPosulation,
   deleteWorkerPosulation,
   getAllWorkerPosulations,
+  getPostulations,
 };
