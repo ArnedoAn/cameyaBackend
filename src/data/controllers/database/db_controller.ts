@@ -309,9 +309,21 @@ async function getServiceWhere(data: any) {
           select: {
             worker_dni: true,
             service_id: true,
+            Worker: {
+              select: {
+                User: {
+                  select: {
+                    name: true,
+                    last_name: true,
+                    email: true,
+                    profile_picture: true,
+                  },
+                },
+              },
+            },
           },
-        },  
-      },
+        }
+      }
     });
 
     const mappedService = {
