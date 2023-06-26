@@ -1,5 +1,6 @@
 import db_controller from "./db_controller";
 import { ServiceStatus as Status } from "../../interfaces/models";
+import { WorkerPostulations } from "@prisma/client";
 
 const createService = db_controller.createService;
 const getAllServices = db_controller.getAllServices;
@@ -9,17 +10,6 @@ const getServiceWhere = db_controller.getServiceWhere;
 const deleteService = db_controller.deleteService;
 const deleteWorkerPosulation = db_controller.deleteWorkerPosulation;
 
-async function addWorkerPostulation(
-  id: number,
-  worker_postulations: string[],
-  worker_dni: string
-) {
-  const response = await updateService(id, {
-    worker_dni: [...worker_postulations, worker_dni],
-    service_status: Status["Not Assigned"],
-  });
-  return response;
-}
 
 async function selectServices(id:number, data:any){
   const response = await selectServices(id, {
@@ -90,6 +80,14 @@ async function getScoreService(id: number) {
   return { success: true, message: { client_score, worker_score } };
 }
 
+async function getAllCategories(page: number) {
+  const categories = await db_controller.getAllCategories(page as number);
+  if (categories.success) {
+    return { success: true, message: categories.message };
+  }
+  return { success: false, message: categories.message };
+}
+
 export default {
   createService,
   getServicesOfUser,
@@ -103,6 +101,6 @@ export default {
   updateScoreUser,
   getScoreService,
   deleteService,
-  addWorkerPostulation,
   getService,
+  getAllCategories
 };

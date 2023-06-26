@@ -250,6 +250,24 @@ async function getAllServices(page: number) {
           },
         },
         Status: true,
+        WorkerPostulations: {
+          select: {
+            worker_dni: true,
+            service_id: true,
+            Worker: {
+              select: {
+                User: {
+                  select: {
+                    name: true,
+                    last_name: true,
+                    email: true,
+                    profile_picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         Categories: {
           select: {
             name: true,
@@ -298,6 +316,24 @@ async function getAllServicesWhere(data: any) {
           },
         },
         Status: true,
+        WorkerPostulations: {
+          select: {
+            worker_dni: true,
+            service_id: true,
+            Worker: {
+              select: {
+                User: {
+                  select: {
+                    name: true,
+                    last_name: true,
+                    email: true,
+                    profile_picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         Categories: {
           select: {
             name: true,
@@ -445,10 +481,13 @@ async function deleteService(id: string) {
 }
 
 // WORKERPOSULATIONS BASICS FUNCTIONS
-async function createWorkerPosulation(workerPosulation: any) {
+async function createWorkerPosulation(workerPosulation: workerPostulations) {
   try {
     const newWorkerPosulation = await prisma.workerPostulations.create({
-      data: workerPosulation,
+      data: {
+        service_id: workerPosulation.service_id,
+        worker_dni: workerPosulation.worker_dni,
+      }
     });
     return { success: true, message: newWorkerPosulation };
   } catch (error: Error | any) {
@@ -550,6 +589,23 @@ async function setScoreWorker(id: string, dni: string, score: number) {
   }
 }
 
+async function getAllCategories(page: number) {
+
+  const pageSize = 10;
+  const skip = (page - 1) * pageSize;
+
+  try {
+    const categories = await prisma.registerCategories.findMany({
+      skip: skip,
+      take: pageSize,
+    });
+    return { success: true, message: categories };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 export default {
   createUser,
   createWorker,
@@ -574,4 +630,5 @@ export default {
   createWorkerPosulation,
   deleteWorkerPosulation,
   getAllWorkerPosulations,
+  getAllCategories,
 };

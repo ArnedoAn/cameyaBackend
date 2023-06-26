@@ -5,6 +5,7 @@ import {
   ServiceDTOUPDATE,
   ServiceDTOGET,
 } from "../../../data/interfaces/DTO/service.dto";
+import { WorkerPostulations } from "@prisma/client";
 
 async function getAllServices(page: number) {
   const response = await dbController.getAllServices(page);
@@ -60,20 +61,6 @@ async function deleteService(id: string) {
   return { success: true, message: "Service deleted succesfully" };
 }
 
-async function addWorkerPostulation(
-  id: number,
-  worker_postulations: string[],
-  worker_dni: string
-) {
-  const response = await dbController.addWorkerPostulation(
-    id,
-    worker_postulations,
-    worker_dni
-  );
-  if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: "Worker postulation added succesfully" };
-}
-
 async function updateServiceNotAssigned(id_service: number, id_worker: string) {
   const response = await dbController.updateServiceNotAssigned(
     id_service,
@@ -81,6 +68,14 @@ async function updateServiceNotAssigned(id_service: number, id_worker: string) {
   );
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: "Service updated succesfully" };
+}
+
+async function getAllCategories(page: number) {
+  const categories = await dbController.getAllCategories(page as number);
+  if (categories.success) {
+    return { success: true, message: categories.message };
+  }
+  return { success: false, message: categories.message };
 }
 
 export default {
@@ -92,7 +87,7 @@ export default {
   deleteService,
   getAllServices,
   getServicesNotAssigned,
-  addWorkerPostulation,
   updateServiceNotAssigned,
   getService,
+  getAllCategories
 };

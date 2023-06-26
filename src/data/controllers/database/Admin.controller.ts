@@ -1,5 +1,6 @@
 import { RegisterCategories } from "@prisma/client";
 import { DBconstants as constants } from "../../../constants/database";
+import db_controller from "./db_controller";
 const prisma = constants.prisma;
 
 async function createCategory(data: RegisterCategories) {
@@ -14,18 +15,11 @@ async function createCategory(data: RegisterCategories) {
 }
 
 async function getCategories(page: number) {
-    const pageSize = 10;
-    const skip = (page - 1) * pageSize;
-
-    try {
-        const response = await prisma.registerCategories.findMany({
-            skip: skip,
-            take: pageSize,
-        });
-        return { success: true, message: response };
-    } catch (error: Error | any) {
-        return { success: false, message: error.message };
+    const categories = await db_controller.getAllCategories(page as number);
+    if (categories.success) {
+        return {success: true, message: categories.message};
     }
+    return { success: false, message: categories.message };
 }
 
 async function getCategory(id: number) {

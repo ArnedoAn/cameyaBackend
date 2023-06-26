@@ -1,5 +1,6 @@
 import WorkerController from "../../../data/controllers/database/Worker.controller";
 import { WorkerInterface } from "../../../data/interfaces/models";
+import { WorkerPostulations } from "@prisma/client";
 
 async function getProfileData(dni: string) {
   const response = await WorkerController.getWorkerByDni(dni);
@@ -29,9 +30,23 @@ async function getScoreWorker(id: number) {
   return { success: true, message: response.message };
 }
 
+
+async function addWorkerPostulation(
+  // service_id: number,
+  // worker_dni: string
+  postulation: WorkerPostulations
+) {
+  const response = await WorkerController.addWorkerPostulation(
+    postulation
+  );
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: "Worker postulation added succesfully" };
+}
+
 export default {
   getProfileData,
   modifyProfileData,
   setScoreWorker,
   getScoreWorker,
+  addWorkerPostulation
 };
