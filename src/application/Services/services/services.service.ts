@@ -1,7 +1,6 @@
 import dbController from "../../../data/controllers/database/Services.controller";
 import { ServiceInterface } from "../../../data/interfaces/models";
 import {
-  ServiceDTOPOST,
   ServiceDTOUPDATE,
   ServiceDTOGET,
 } from "../../../data/interfaces/DTO/service.dto";
@@ -38,9 +37,43 @@ async function getServicesOfUser(id: string) {
 }
 
 async function getServicesOfWorker(id: string) {
-  const response = await dbController.getServicesOfWorker(id);
-  if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: response.message };
+  const postulations = await dbController.getAllWorkerPostulations(id);
+  const services = await dbController.getServicesOfWorker(id);
+
+  if (
+    (!postulations.success && !services.success) ||
+    (!postulations.success && services.success) ||
+    (postulations.success && !services.success)
+  )
+    return { success: false, message: postulations.message + services.message };
+
+  const postulationsMessage = postulations.message as WorkerPostulations[];
+  const servicesMessage = services.message as ServiceDTOGET[];
+
+  let allServices: ServiceInterface[] = [];
+
+  if (postulationsMessage.length > 0) {
+    await Promise.all(
+      postulationsMessage.map(async (postulation) => {
+        const service = await getService(postulation.service_id.toString());
+        allServices.push(service.message as ServiceInterface);
+      })
+    );
+  }
+
+  if (servicesMessage.length > 0) {
+    await Promise.all(
+      servicesMessage.map(async (postulation) => {
+        const service = await getService(postulation.id.toString());
+        allServices.push(service.message as ServiceInterface);
+      })
+    );
+  }
+
+  return {
+    success: true,
+    message: allServices,
+  };
 }
 
 async function getServicesByCategory(categories: string[]) {
@@ -61,7 +94,10 @@ async function deleteService(id: string) {
   return { success: true, message: "Service deleted succesfully" };
 }
 
-async function updateServiceNotAssigned(worker_dni: string, service_id: number) {
+async function updateServiceNotAssigned(
+  worker_dni: string,
+  service_id: number
+) {
   const response = await dbController.updateServiceNotAssigned(
     worker_dni,
     service_id
@@ -87,5 +123,5 @@ export default {
   getServicesNotAssigned,
   updateServiceNotAssigned,
   getService,
-  getAllCategories
+  getAllCategories,
 };

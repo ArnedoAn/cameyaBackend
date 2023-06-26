@@ -5,7 +5,6 @@ import {
   WorkerPostulationDTO,
 } from "../../../data/interfaces/DTO/service.dto";
 import { ServiceInterface } from "../../../data/interfaces/models";
-import { WorkerPostulations } from "@prisma/client";
 
 const router = express.Router(); // Route: /service
 
@@ -36,7 +35,6 @@ router.post("/create", async (req, res) => {
 
 router.post("/suser", async (req, res) => {
   const response = await MngService.getServicesOfUser(req.body.dni as string);
-  console.log(req.body.dni);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
