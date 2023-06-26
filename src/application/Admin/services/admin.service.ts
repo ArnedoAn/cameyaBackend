@@ -1,5 +1,10 @@
 import AdminController from "../../../data/controllers/database/Admin.controller";
 import { RegisterCategories } from "@prisma/client";
+import { LoginDTO } from "../../../data/interfaces/auth_interfaces/login_dto";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { servicesConstanst } from "../../../constants/services";
+const secretKey = servicesConstanst.jwtSecret;
 
 async function createCategory(data: RegisterCategories) {
     const response = await AdminController.createCategory(data);
@@ -7,8 +12,8 @@ async function createCategory(data: RegisterCategories) {
     return { success: true, message: response.message };
 }
 
-async function getCategories(page: number) {
-    const response = await AdminController.getCategories(page);
+async function getCategories() {
+    const response = await AdminController.getCategories();
     if (!response.success) return { success: false, message: response.message };
     return { success: true, message: response.message };
 }
@@ -43,6 +48,32 @@ async function deleteUser(id: string) {
     return { success: true, message: response.message };
 }
 
+async function loginAdminFromForm(admin: LoginDTO) {
+    const data = await AdminController.getAdminByEmail(admin.email);
+    if (!data.success || data.message === null) {
+      return { success: false, message: "Invalid email or password" };
+    }
+    if (
+      (await validatePassword(admin.password, data.message.password)) === false
+    ) {
+      return { success: false, message: "Invalid password" };
+    }
+    delete data.message.password;
+    return {
+      success: true,
+      message: data.message,
+      token: await generateToken(admin.email, admin.password),
+    };
+  }
+  
+  async function validatePassword(pwd: string, pwdHashed: string) {
+    return await bcrypt.compare(pwd, pwdHashed);
+  }
+  
+  async function generateToken(email: string, password: string) {
+    return jwt.sign({ email, password }, secretKey as string);
+  }
+
 export default {
     createCategory,
     getCategories,
@@ -50,6 +81,7 @@ export default {
     deleteCategory,
     updateCategory,
     deleteService,
-    deleteUser
+    deleteUser,
+    loginAdminFromForm
 };
 

@@ -1,6 +1,7 @@
 import { RegisterCategories } from "@prisma/client";
 import { DBconstants as constants } from "../../../constants/database";
 import db_controller from "./db_controller";
+import { LoginDTO } from "../../interfaces/auth_interfaces/login_dto";
 const prisma = constants.prisma;
 
 async function createCategory(data: RegisterCategories) {
@@ -14,7 +15,7 @@ async function createCategory(data: RegisterCategories) {
     }
 }
 
-async function getCategories(page: number) {
+async function getCategories() {
     const categories = await db_controller.getAllCategories();
     if (categories.success) {
         return {success: true, message: categories.message};
@@ -88,6 +89,20 @@ async function deleteUser(id: string) {
     }
 }
 
+async function getAdminByEmail(adminEmail: string) {
+    try{
+        const response = await prisma.admin.findUnique({
+            where: {
+                email: adminEmail
+            }
+        });
+        return { success: true, message: response };
+    }catch(error: Error | any){
+        return { success: false, message: error.message };
+    }
+}
+
+
 export default {
     createCategory,
     getCategories,
@@ -95,5 +110,6 @@ export default {
     deleteCategory,
     updateCategory,
     deleteService,
-    deleteUser
+    deleteUser,
+    getAdminByEmail
 };

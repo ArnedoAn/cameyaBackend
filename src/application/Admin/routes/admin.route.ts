@@ -1,11 +1,10 @@
 import express, { Request, Response } from "express";
 const router = express.Router(); //admin
-import loginService from "../../Auth/services/login.service";
 import adminService from "../services/admin.service";
 import { RegisterCategories } from "@prisma/client";
 
 router.post("/login", async (req: Request, res: Response) => {
-    const response = await loginService.loginUserFromForm(req.body);
+    const response = await adminService.loginAdminFromForm(req.body);
     if (response.success) {
         return res.status(200).json(response);
     }
@@ -21,7 +20,7 @@ router.post("/createCategory", async (req: Request, res: Response) => {
 });
 
 router.get("/getCategories/:page", async (req: Request, res: Response) => {
-    const data = await adminService.getCategories(Number(req.params.page) as number);
+    const data = await adminService.getCategories();
     if (data.success) {
         return res.status(200).json(data);
     }
