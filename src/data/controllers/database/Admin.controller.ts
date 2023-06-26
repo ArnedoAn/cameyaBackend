@@ -15,7 +15,7 @@ async function createCategory(data: RegisterCategories) {
 }
 
 async function getCategories(page: number) {
-    const categories = await db_controller.getAllCategories(page as number);
+    const categories = await db_controller.getAllCategories();
     if (categories.success) {
         return {success: true, message: categories.message};
     }
