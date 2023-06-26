@@ -49,20 +49,6 @@ async function deleteCategory(id: number) {
     }
 }
 
-async function updateCategory(id: number, data: RegisterCategories) {
-    try {
-        const response = await prisma.registerCategories.update({
-            where: {
-                id: id
-            },
-            data: data
-        });
-        return { success: true, message: response };
-    } catch (error: Error | any) {
-        return { success: false, message: error.message };
-    }
-}
-
 async function deleteService(id: number) {
     try {
         const response = await prisma.service.delete({
@@ -108,7 +94,6 @@ export default {
     getCategories,
     getCategory,
     deleteCategory,
-    updateCategory,
     deleteService,
     deleteUser,
     getAdminByEmail

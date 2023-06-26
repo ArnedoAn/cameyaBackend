@@ -30,12 +30,6 @@ async function deleteCategory(id: number) {
     return { success: true, message: response.message };
 }
 
-async function updateCategory(id: number, data: RegisterCategories) {
-    const response = await AdminController.updateCategory(id, data);
-    if (!response.success) return { success: false, message: response.message };
-    return { success: true, message: response.message };
-}
-
 async function deleteService(id: number) {
     const response = await AdminController.deleteService(id);
     if (!response.success) return { success: false, message: response.message };
@@ -79,7 +73,6 @@ export default {
     getCategories,
     getCategory,
     deleteCategory,
-    updateCategory,
     deleteService,
     deleteUser,
     loginAdminFromForm

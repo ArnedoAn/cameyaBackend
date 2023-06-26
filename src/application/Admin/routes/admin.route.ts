@@ -43,14 +43,6 @@ router.delete("/deleteCategory/:id", async (req: Request, res: Response) => {
     return res.status(400).json(data);
 });
 
-router.put("/updateCategory/:id", async (req: Request, res: Response) => {
-    const data = await adminService.updateCategory(parseInt(req.params.id), req.body);
-    if (data.success) {
-        return res.status(200).json(data);
-    }
-    return res.status(400).json(data);
-});
-
 router.delete("/deleteService/:id", async (req: Request, res: Response) => {
     const data = await adminService.deleteService(parseInt(req.params.id));
     if (data.success) {
