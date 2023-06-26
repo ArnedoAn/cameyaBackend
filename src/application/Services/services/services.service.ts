@@ -70,8 +70,8 @@ async function updateServiceNotAssigned(worker_dni: string, service_id: number) 
   return { success: true, message: "Service updated succesfully" };
 }
 
-async function getAllCategories(page: number) {
-  const categories = await dbController.getAllCategories(page as number);
+async function getAllCategories() {
+  const categories = await dbController.getAllCategories();
   if (categories.success) {
     return { success: true, message: categories.message };
   }

@@ -609,16 +609,10 @@ async function setScoreWorker(id: string, dni: string, score: number) {
   }
 }
 
-async function getAllCategories(page: number) {
-
-  const pageSize = 10;
-  const skip = (page - 1) * pageSize;
+async function getAllCategories() {
 
   try {
-    const categories = await prisma.registerCategories.findMany({
-      skip: skip,
-      take: pageSize,
-    });
+    const categories = await prisma.registerCategories.findMany();
     return { success: true, message: categories };
   } catch (error: Error | any) {
     console.log(error);

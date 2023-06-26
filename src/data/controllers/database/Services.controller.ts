@@ -80,8 +80,8 @@ async function getScoreService(id: number) {
   return { success: true, message: { client_score, worker_score } };
 }
 
-async function getAllCategories(page: number) {
-  const categories = await db_controller.getAllCategories(page as number);
+async function getAllCategories() {
+  const categories = await db_controller.getAllCategories();
   if (categories.success) {
     return { success: true, message: categories.message };
   }

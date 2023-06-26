@@ -70,8 +70,8 @@ router.put("/updatePostulation", async (req, res) => {
   return res.status(200).json(response);
 });
 
-router.get("/categories/:page", async (req, res) => {
-  const response = await MngService.getAllCategories(Number(req.params.page) as number);
+router.get("/categories", async (req, res) => {
+  const response = await MngService.getAllCategories();
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 })
