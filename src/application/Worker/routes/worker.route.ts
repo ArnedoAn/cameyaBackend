@@ -45,4 +45,12 @@ router.post("/AddPostulation", async (req, res) => {
   return res.status(200).json(response);
 });
 
+router.put("/RetireFromService", async (req, res) => {
+  const response = await workerService.retireFromService(
+    req.body as WorkerPostulations
+  );
+  if (!response.success) return res.status(400).json(response);
+  return res.status(200).json(response);
+});
+
 export default router;

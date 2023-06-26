@@ -32,8 +32,6 @@ async function getScoreWorker(id: number) {
 
 
 async function addWorkerPostulation(
-  // service_id: number,
-  // worker_dni: string
   postulation: WorkerPostulations
 ) {
   const response = await WorkerController.addWorkerPostulation(
@@ -43,10 +41,17 @@ async function addWorkerPostulation(
   return { success: true, message: "Worker postulation added succesfully" };
 }
 
+async function retireFromService(postulation: WorkerPostulations) {
+  const response = await WorkerController.retire(postulation);
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: "Worker retired from service succesfully" };
+}
+
 export default {
   getProfileData,
   modifyProfileData,
   setScoreWorker,
   getScoreWorker,
-  addWorkerPostulation
+  addWorkerPostulation,
+  retireFromService
 };

@@ -620,6 +620,17 @@ async function getAllCategories() {
   }
 }
 
+async function retireFromService(postulation: workerPostulations) {
+  try {
+    const service = await updateService(postulation.service_id, { service_status: Status["Completed"] });
+
+    return { success: true, message: service };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
 export default {
   createUser,
   createWorker,
@@ -645,4 +656,5 @@ export default {
   deleteWorkerPosulation,
   getAllWorkerPosulations,
   getAllCategories,
+  retireFromService
 };
