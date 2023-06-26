@@ -320,7 +320,15 @@
             "name": "dni",
             "in": "query",
             "required": true,
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "service_id": {
+                "type": "number"
+              },
+              "worker_id": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -522,6 +530,55 @@
         }
       }
     },
+    "/api/worker/AddPostulation": {
+      "post": {
+        "tags": ["Worker"],
+        "summary": "Add Woker postulation",
+        "description": "Add Worker postulation to one service",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postulation added successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error adding postulation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/worker/score": {
       "get": {
         "tags": ["Worker"],
@@ -679,7 +736,7 @@
         }
       }
     },
-    "/api/service/{id}":{
+    "/api/service/{id}": {
       "get": {
         "tags": ["Services"],
         "summary": "Get service by id",
@@ -896,68 +953,6 @@
         }
       }
     },
-    "/api/service/updatePostulation": {
-      "put": {
-        "tags": ["Services"],
-        "summary": "Update service postulation",
-        "description": "Update service postulation",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "Postulation Input",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number"
-                },
-                "id_worker": {
-                  "type": "string"
-                },
-                "id_service": {
-                  "type": "string"
-                }
-              }
-            }
-          }  
-        ],
-        "responses": {
-          "200": {
-            "description": "Service updated successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "success": {
-                  "type": "boolean",
-                  "default": true
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error updating service",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "success": {
-                  "type": "boolean",
-                  "default": false
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/service/scategory": {
       "post": {
         "tags": ["Services"],
@@ -1001,6 +996,68 @@
           },
           "400": {
             "description": "Error obtaining services",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/updatePostulation": {
+      "put": {
+        "tags": ["Services"],
+        "summary": "Update service postulation",
+        "description": "Update service postulation",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Postulation Input",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "id_worker": {
+                  "type": "string"
+                },
+                "id_service": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error updating service",
             "schema": {
               "type": "object",
               "properties": {

@@ -1,6 +1,5 @@
 import db_controller from "./db_controller";
 import { ServiceStatus as Status } from "../../interfaces/models";
-import { WorkerPostulations } from "@prisma/client";
 
 const createService = db_controller.createService;
 const getAllServices = db_controller.getAllServices;
@@ -10,6 +9,11 @@ const getServiceWhere = db_controller.getServiceWhere;
 const deleteService = db_controller.deleteService;
 const deleteWorkerPosulation = db_controller.deleteWorkerPosulation;
 
+
+async function getAllWorkerPostulations(worker_dni: string){
+  const response = await db_controller.getAllWorkerPosulations({worker_dni});
+  return response;
+}
 
 async function selectServices(id:number, data:any){
   const response = await selectServices(id, {
@@ -102,5 +106,6 @@ export default {
   getScoreService,
   deleteService,
   getService,
-  getAllCategories
+  getAllCategories,
+  getAllWorkerPostulations,
 };

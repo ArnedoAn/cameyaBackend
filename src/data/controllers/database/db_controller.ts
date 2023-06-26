@@ -535,6 +535,7 @@ async function getAllWorkerPosulations(data: any) {
     const workerPosulations = await prisma.workerPostulations.findMany({
       select: {
         worker_dni: true,
+        service_id: true,
       },
       where: data,
     });
