@@ -17,7 +17,7 @@ router.post("/createCategory", async (req: Request, res: Response) => {
     if (response.success) {
         return res.status(200).json(response);
     }
-    return res.status(400).json(response);    
+    return res.status(400).json(response);
 });
 
 router.get("/getCategories/:page", async (req: Request, res: Response) => {
@@ -66,6 +66,10 @@ router.delete("/deleteUser/:id", async (req: Request, res: Response) => {
         return res.status(200).json(data);
     }
     return res.status(400).json(data);
+});
+
+router.get("/logout", async (req: Request, res: Response) => {
+    res.json({ success: false, message: "User not logged in" });
 });
 
 export default router;
