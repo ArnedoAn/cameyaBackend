@@ -610,7 +610,6 @@ async function setScoreWorker(id: string, dni: string, score: number) {
 }
 
 async function getAllCategories() {
-
   try {
     const categories = await prisma.registerCategories.findMany();
     return { success: true, message: categories };

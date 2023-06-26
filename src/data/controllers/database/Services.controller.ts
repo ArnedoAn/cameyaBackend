@@ -9,7 +9,7 @@ const updateService = db_controller.updateService;
 const getServiceWhere = db_controller.getServiceWhere;
 const deleteService = db_controller.deleteService;
 const deleteWorkerPosulation = db_controller.deleteWorkerPosulation;
-
+const getCategories = db_controller.getAllCategories;
 
 async function selectServices(id:number, data:any){
   const response = await selectServices(id, {
@@ -80,14 +80,6 @@ async function getScoreService(id: number) {
   return { success: true, message: { client_score, worker_score } };
 }
 
-async function getAllCategories() {
-  const categories = await db_controller.getAllCategories();
-  if (categories.success) {
-    return { success: true, message: categories.message };
-  }
-  return { success: false, message: categories.message };
-}
-
 export default {
   createService,
   getServicesOfUser,
@@ -102,5 +94,5 @@ export default {
   getScoreService,
   deleteService,
   getService,
-  getAllCategories
+  getCategories
 };

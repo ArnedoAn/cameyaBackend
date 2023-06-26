@@ -71,11 +71,9 @@ async function updateServiceNotAssigned(worker_dni: string, service_id: number) 
 }
 
 async function getAllCategories() {
-  const categories = await dbController.getAllCategories();
-  if (categories.success) {
-    return { success: true, message: categories.message };
-  }
-  return { success: false, message: categories.message };
+  const response = await dbController.getCategories();
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: response.message };
 }
 
 export default {

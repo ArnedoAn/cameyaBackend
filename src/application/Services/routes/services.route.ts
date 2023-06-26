@@ -9,6 +9,12 @@ import { WorkerPostulations } from "@prisma/client";
 
 const router = express.Router(); // Route: /service
 
+router.get("/getCategories", async (req, res) => {
+  const response = await MngService.getAllCategories();
+  if (!response.success) return res.status(400).json(response);
+  return res.status(200).json(response);
+});
+
 router.get("/all/:page", async (req, res) => {
   const response = await MngService.getAllServices(Number(req.params.page) as number);
   if (!response.success) return res.status(400).json(response);
@@ -69,11 +75,5 @@ router.put("/updatePostulation", async (req, res) => {
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
 });
-
-router.get("/categories", async (req, res) => {
-  const response = await MngService.getAllCategories();
-  if (!response.success) return res.status(400).json(response);
-  return res.status(200).json(response);
-})
 
 export default router;

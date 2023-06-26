@@ -19,7 +19,7 @@ router.post("/createCategory", async (req: Request, res: Response) => {
     return res.status(400).json(response);
 });
 
-router.get("/getCategories/:page", async (req: Request, res: Response) => {
+router.get("/getCategories", async (req: Request, res: Response) => {
     const data = await adminService.getCategories();
     if (data.success) {
         return res.status(200).json(data);
