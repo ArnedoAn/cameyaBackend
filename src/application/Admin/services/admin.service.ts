@@ -31,11 +31,25 @@ async function updateCategory(id: number, data: RegisterCategories) {
     return { success: true, message: response.message };
 }
 
+async function deleteService(id: number) {
+    const response = await AdminController.deleteService(id);
+    if (!response.success) return { success: false, message: response.message };
+    return { success: true, message: response.message };
+}
+
+async function deleteUser(id: string) {
+    const response = await AdminController.deleteUser(id);
+    if (!response.success) return { success: false, message: response.message };
+    return { success: true, message: response.message };
+}
+
 export default {
     createCategory,
     getCategories,
     getCategory,
     deleteCategory,
-    updateCategory
+    updateCategory,
+    deleteService,
+    deleteUser
 };
 

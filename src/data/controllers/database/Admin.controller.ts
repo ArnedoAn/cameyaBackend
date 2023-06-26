@@ -68,10 +68,38 @@ async function updateCategory(id: number, data: RegisterCategories) {
     }
 }
 
+async function deleteService(id: number) {
+    try {
+        const response = await prisma.service.delete({
+            where: {
+                id: id
+            }
+        });
+        return { success: true, message: response };
+    } catch (error: Error | any) {
+        return { success: false, message: error.message };
+    }
+}
+
+async function deleteUser(id: string) {
+    try {
+        const response = await prisma.user.delete({
+            where: {
+                dni: id
+            }
+        });
+        return { success: true, message: response };
+    } catch (error: Error | any) {
+        return { success: false, message: error.message };
+    }
+}
+
 export default {
     createCategory,
     getCategories,
     getCategory,
     deleteCategory,
-    updateCategory
+    updateCategory,
+    deleteService,
+    deleteUser
 };
