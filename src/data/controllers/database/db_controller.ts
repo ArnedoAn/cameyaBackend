@@ -240,6 +240,9 @@ async function getAllServices(page: number) {
         },
         Worker: {
           select: {
+            service_type: true,
+            service_detail: true,
+            rate_hour: true,
             User: {
               select: {
                 name: true,
@@ -247,6 +250,7 @@ async function getAllServices(page: number) {
                 email: true,
                 profile_picture: true,
                 score: true,
+                phone: true,
               },
             },
           },
@@ -326,6 +330,9 @@ async function getAllServicesWhere(data: any) {
             service_id: true,
             Worker: {
               select: {
+                service_type: true,
+                service_detail: true,
+                rate_hour: true,
                 User: {
                   select: {
                     name: true,
@@ -333,6 +340,7 @@ async function getAllServicesWhere(data: any) {
                     email: true,
                     profile_picture: true,
                     score: true,
+                    phone: true,
                   },
                 },
               },
@@ -404,6 +412,9 @@ async function getServiceWhere(data: any) {
             service_id: true,
             Worker: {
               select: {
+                service_type: true,
+                service_detail: true,
+                rate_hour: true,
                 User: {
                   select: {
                     name: true,
@@ -411,6 +422,7 @@ async function getServiceWhere(data: any) {
                     email: true,
                     profile_picture: true,
                     score: true,
+                    phone: true,
                   },
                 },
               },
