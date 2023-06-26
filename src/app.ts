@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import path from "path";
+import moment from "moment-timezone";
 
 const app = express();
 const swaggerPath = path.join(
@@ -28,12 +29,22 @@ const swaggerOptions = {
   customfavIcon: constants.icon,
 };
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath), swaggerOptions));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(require(swaggerPath), swaggerOptions)
+);
+
+// Morgan config
+const customFormatMorgan = ":time :method :url :status :response-time ms";
+morgan.token("time", () => {
+  return moment().tz("America/Bogota").format("YYYY-MM-DD HH:mm:ss");
+});
+app.use(morgan(customFormatMorgan));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(morgan(':date[iso] :method :url :status :response-time ms'));
 
 // Configuración de CORS
 const corsOptions = {
