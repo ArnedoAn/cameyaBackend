@@ -6,6 +6,7 @@ import { serverConstants as constants } from "./constants/server";
 import authRoute from "./application/Auth/routes/auth.route";
 import clientRoute from "./application/Clients/routes/client.route";
 import workerRoute from "./application/Worker/routes/worker.route";
+import AdminRoute from "./application/Admin/routes/admin.route";
 import serviceRoute from "./application/Services/routes/services.route";
 import googleStrategy from "./utils/strategies/google.strategy";
 import jwtStrategy from "./utils/strategies/jwt.strategy";
@@ -84,6 +85,7 @@ app.use("/auth", authRoute);
 app.use("/api/user", clientRoute);
 app.use("/api/worker", workerRoute);
 app.use("/api/service", serviceRoute);
+app.use("/admin", AdminRoute)
 
 app.get("/", (req, res) => {
   res.redirect("/api-docs");

@@ -1,3 +1,4 @@
+import { RegisterCategories } from "@prisma/client";
 import { DBconstants as constants } from "../../../constants/database";
 import {
   UserInterface as User,
@@ -170,10 +171,49 @@ async function getWorkersWhere(data: any) {
 // SERVICE BASICS FUNCTIONS
 async function createService(service: any) {
   try {
+
+    // Crea el modelo de servicio sin las categorías
     const newService = await prisma.service.create({
       data: service,
     });
-    return { success: true, message: newService };
+
+    const { categories, ...restData } = service;
+
+    // Verifica si se proporcionaron categorías
+    if (categories && categories.length > 0) {
+      // Crea modelos de categorías correspondientes
+      const categoryPromises = categories.map(async (category: string) => {
+        const newCategory = await prisma.registerCategories.findFirst({
+          where: {
+            name: category,
+          },
+        });
+
+        if (!newCategory) throw new Error("Category not found");
+
+        const createdCategory = await prisma.categories.create({
+          data: {
+            name: newCategory.name,
+            service_id: newService.id,
+          },
+        });
+
+        return createdCategory;
+      });
+
+      const createdCategories = await Promise.all(categoryPromises);
+
+      // Asocia los modelos de categorías creados al modelo de servicio)
+      await prisma.service.update({
+        where: { id: newService.id },
+        data: {
+          Categories: {
+            connect: createdCategories.map((category) => ({ id: category.id }))
+          }
+        }
+      });
+    }
+    return { success: true, message: service };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -210,6 +250,11 @@ async function getAllServices(page: number) {
           },
         },
         Status: true,
+        Categories: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -253,6 +298,11 @@ async function getAllServicesWhere(data: any) {
           },
         },
         Status: true,
+        Categories: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     const mappedServices = services.map((service: any) => {
@@ -321,6 +371,11 @@ async function getServiceWhere(data: any) {
                 },
               },
             },
+          },
+        },
+        Categories: {
+          select: {
+            name: true,
           },
         }
       }
