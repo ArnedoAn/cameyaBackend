@@ -14,9 +14,9 @@ async function modifyProfileData(user: WorkerInterface) {
   return { success: true, message: "Data updated successfully" };
 }
 
-async function setScoreWorker(id: number, dni: string, score: number) {
+async function setScoreWorker(service_id: number, dni: string, score: number) {
   const response = await WorkerController.setScoreWorker(
-    id.toString(),
+    service_id.toString(),
     dni,
     score
   );

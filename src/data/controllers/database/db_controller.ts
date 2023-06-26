@@ -226,6 +226,11 @@ async function getAllServices(page: number) {
 
   try {
     const services = await prisma.service.findMany({
+      where: {
+        NOT: {
+          service_status: Status["Completed"],
+        }
+      },
       skip: skip,
       take: pageSize,
       include: {
@@ -579,13 +584,13 @@ async function setScoreUser(id: string, dni: string, score: number) {
   }
 }
 
-async function setScoreWorker(id: string, dni: string, score: number) {
+async function setScoreWorker(service_id: string, dni: string, score: number) {
   try {
-    const service = await updateService(Number(id), { worker_score: score });
+    const service = await updateService(Number(service_id), { worker_score: score });
 
     if (!service.success) return service;
 
-    const worker = await getServiceWhere({ id: Number(id), worker_dni: dni });
+    const worker = await getServiceWhere({ id: Number(service_id), worker_dni: dni });
 
     if (!worker.success)
       return { success: false, message: "No se encontró el servicio" };
