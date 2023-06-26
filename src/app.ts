@@ -33,7 +33,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(swaggerPath), swag
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(morgan("dev"));
+app.use(morgan(':date[iso] :method :url :status :response-time ms'));
 
 // Configuración de CORS
 const corsOptions = {
