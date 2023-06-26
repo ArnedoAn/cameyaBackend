@@ -61,10 +61,10 @@ async function deleteService(id: string) {
   return { success: true, message: "Service deleted succesfully" };
 }
 
-async function updateServiceNotAssigned(id_service: number, id_worker: string) {
+async function updateServiceNotAssigned(worker_dni: string, service_id: number) {
   const response = await dbController.updateServiceNotAssigned(
-    id_service,
-    id_worker
+    worker_dni,
+    service_id
   );
   if (!response.success) return { success: false, message: response.message };
   return { success: true, message: "Service updated succesfully" };

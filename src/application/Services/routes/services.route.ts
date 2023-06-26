@@ -63,8 +63,8 @@ router.delete("/delete", async (req, res) => {
 
 router.put("/updatePostulation", async (req, res) => {
   const response = await MngService.updateServiceNotAssigned(
-    req.body.id_service as number,
-    req.body.id_worker as string,
+    req.body.worker_dni as string,
+    req.body.service_id as number,
   );
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);

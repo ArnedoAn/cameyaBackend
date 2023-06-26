@@ -33,9 +33,9 @@ async function getServicesNotAssigned() {
   return response;
 }
 
-async function updateServiceNotAssigned(id_service: number, id_worker: string) {
-    await updateService(id_service, { service_status: Status["Assigned"] , worker_dni: id_worker });
-    const response = await deleteWorkerPosulation(id_service);
+async function updateServiceNotAssigned(worker_dni: string, service_id: number) {
+    await updateService(service_id, { service_status: Status["Assigned"] , worker_dni: worker_dni });
+    const response = await deleteWorkerPosulation(service_id);
     
     return response;
 }
