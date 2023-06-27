@@ -591,10 +591,8 @@ async function setScoreUser(id: string, dni: string, score: number) {
       },
     });
 
-    console.log(result);
-
-    const average = result._avg.client_score ?? 0;
-
+    const average = Number(result._avg.client_score?.toFixed(2)) ?? 0;
+    console.log("average", average);
     const userUpdated = await updateUser(dni, { score: average });
 
     return { success: true, message: userUpdated };
@@ -610,7 +608,7 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
       worker_score: score,
     });
 
-    if (!service.success) return service;
+    if (!service.success) throw new Error(service.message);
 
     const worker = await getServiceWhere({
       id: Number(service_id),
@@ -619,6 +617,9 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
 
     if (!worker.success)
       return { success: false, message: "No se encontró el servicio" };
+
+
+    console.log("worker", worker, dni);
 
     const result = await prisma.service.aggregate({
       where: {
@@ -630,11 +631,11 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
       },
     });
 
-    console.log(result);
+    const average = Number(result._avg.worker_score?.toFixed(2)) ?? 0;
 
-    const average = result._avg.worker_score ?? 0;
+    console.log("average", average);
 
-    const workerUpdated = await updateWorker(dni, { score: average });
+    const workerUpdated = await updateUser(dni, { score: average });
 
     return { success: true, message: workerUpdated };
   } catch (error: Error | any) {

@@ -40,6 +40,7 @@ router.post(
 );
 
 router.put("/score", async (req, res) => {
+  console.log(req.body)
   const { service_id, dni, score } = req.body;
   const response = await clientService.setScoreUser(
     service_id as number,
