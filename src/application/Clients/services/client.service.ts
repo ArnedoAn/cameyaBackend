@@ -47,10 +47,17 @@ async function getScoreUser(id: number) {
   return { success: true, message: response.message };
 }
 
+async function terminateService(service_id: number) {
+  const response = await UserController.terminateService(service_id);
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: response.message };
+}
+
 export default {
   getProfileData,
   modifyProfileData,
   uploadProfilePicture,
   setScoreUser,
   getScoreUser,
+  terminateService
 };
