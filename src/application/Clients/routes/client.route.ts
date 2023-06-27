@@ -50,8 +50,9 @@ router.put("/score", async (req, res) => {
   return res.status(200).json(response);
 });
 
-router.get("/score:id", async (req, res) => {
-  const id = Number(req.query.id);
+router.get("/score/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  console.log("el id es: ", id)
   const response = await clientService.getScoreUser(id as number);
   if (!response.success) return res.status(400).json(response);
   return res.status(200).json(response);
