@@ -591,6 +591,8 @@ async function setScoreUser(id: string, dni: string, score: number) {
       },
     });
 
+    console.log(result);
+
     const average = result._avg.client_score ?? 0;
 
     const userUpdated = await updateUser(dni, { score: average });
@@ -627,6 +629,8 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
         worker_score: true,
       },
     });
+
+    console.log(result);
 
     const average = result._avg.worker_score ?? 0;
 
