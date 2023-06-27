@@ -14,11 +14,18 @@ COPY keys.json .
 # Instala las dependencias del proyecto
 RUN npm install
 
+# Instala TypeScript como una dependencia de desarrollo
+RUN npm install typescript -g
+
 # Copia el resto de los archivos del proyecto al contenedor
 COPY . .
 
+# Actualiza el ORM
+
+#RUN npm run database
+
 # Compila el proyecto TypeScript
-RUN npm run build
+RUN tsc
 
 # Expone el puerto que utiliza tu aplicación (asegúrate de que coincida con la configuración de tu aplicación)
 EXPOSE 3003
