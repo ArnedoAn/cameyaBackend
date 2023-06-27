@@ -574,7 +574,7 @@ async function setScoreUser(id: string, dni: string, score: number) {
   try {
     const service = await updateService(Number(id), { client_score: score });
 
-    if (!service.success) return service;
+    if (!service.success) throw new Error(service.message);
 
     const client = await getServiceWhere({ id: Number(id), client_dni: dni });
 
@@ -584,6 +584,7 @@ async function setScoreUser(id: string, dni: string, score: number) {
     const result = await prisma.service.aggregate({
       where: {
         client_dni: dni,
+        service_status: Status["Completed"],
       },
       _avg: {
         client_score: true,
@@ -620,6 +621,7 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
     const result = await prisma.service.aggregate({
       where: {
         worker_dni: dni,
+        service_status: Status["Completed"],
       },
       _avg: {
         worker_score: true,
