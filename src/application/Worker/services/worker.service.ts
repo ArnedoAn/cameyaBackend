@@ -52,7 +52,7 @@ async function terminateService(service_id: number) {
   const response = await WorkerController.terminateService(service_id);
   const service = await WorkerController.getFinalization(service_id);
   if(service.message.approbation_client == 1) {
-    await WorkerController.updateService(service_id, { service_status: Status["Assigned"]});
+    await WorkerController.updateService(service_id, { service_status: Status["Completed"]});
     return { success: true, message: "Service terminated succesfully" };
   }
   if (!response.success) return { success: false, message: response.message };

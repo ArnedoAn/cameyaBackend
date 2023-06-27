@@ -50,9 +50,9 @@ async function getScoreUser(id: number) {
 
 async function terminateService(service_id: number) {
   const response = await UserController.terminateService(service_id);
-  const service = await UserController.getService(service_id);
+  const service = await UserController.getFinalization(service_id);
   if(service.message.approbation_worker == 1) {
-    await UserController.updateService(service_id, { service_status: Status["Assigned"]});
+    await UserController.updateService(service_id, { service_status: Status["Completed"]});
     return { success: true, message: "Service terminated succesfully" };
   }
   if (!response.success) return { success: false, message: response.message };
