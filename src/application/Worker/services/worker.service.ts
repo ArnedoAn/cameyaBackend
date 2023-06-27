@@ -1,6 +1,7 @@
 import WorkerController from "../../../data/controllers/database/Worker.controller";
 import { WorkerInterface } from "../../../data/interfaces/models";
 import { WorkerPostulations } from "@prisma/client";
+import { ServiceStatus as Status} from "../../../data/interfaces/models";
 
 async function getProfileData(dni: string) {
   const response = await WorkerController.getWorkerByDni(dni);
@@ -47,11 +48,23 @@ async function retireFromService(postulation: WorkerPostulations) {
   return { success: true, message: "Worker retired from service succesfully" };
 }
 
+async function terminateService(service_id: number) {  
+  const response = await WorkerController.terminateService(service_id);
+  const service = await WorkerController.getFinalization(service_id);
+  if(service.message.approbation_client == 1) {
+    await WorkerController.updateService(service_id, { service_status: Status["Assigned"]});
+    return { success: true, message: "Service terminated succesfully" };
+  }
+  if (!response.success) return { success: false, message: response.message };
+  return { success: true, message: "Service update succesfully" };
+}
+
 export default {
   getProfileData,
   modifyProfileData,
   setScoreWorker,
   getScoreWorker,
   addWorkerPostulation,
-  retireFromService
+  retireFromService,
+  terminateService
 };

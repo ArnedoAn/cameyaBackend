@@ -435,6 +435,7 @@ async function getServiceWhere(data: any) {
             name: true,
           },
         },
+
       },
     });
 
@@ -451,6 +452,24 @@ async function getServiceWhere(data: any) {
     mappedService.Worker = worker;
 
     return { success: true, message: mappedService };
+  } catch (error: Error | any) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+}
+
+async function getFinalization(service_id: any) {
+  try {
+    const status = await prisma.service.findFirst({
+      where: {
+        id: service_id
+      },
+      select: {
+        approbation_client: true,
+        approbation_worker: true
+      },
+    });
+    return { success: true, message: status }
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -665,4 +684,5 @@ export default {
   getAllWorkerPosulations,
   getAllCategories,
   retireFromService,
+  getFinalization
 };

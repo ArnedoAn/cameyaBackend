@@ -53,4 +53,11 @@ router.put("/RetireFromService", async (req, res) => {
   return res.status(200).json(response);
 });
 
+router.put("/TerminateService", async (req, res) => {
+  const { service_id } = req.body;
+  const response = await workerService.terminateService(service_id as number);
+  if (!response.success) return res.status(400).json(response);
+  return res.status(200).json(response);
+});
+
 export default router;

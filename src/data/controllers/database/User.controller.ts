@@ -9,6 +9,7 @@ const getUsersWhere = db_controller.getUsersWhere;
 const updateScoreWorker = db_controller.setScoreUser;
 const setScoreUser = db_controller.setScoreUser;
 const updateService = db_controller.updateService;
+const getService = db_controller.getServiceWhere;
 
 async function getUserByDni(dni: string) {
   const response = await getUserWhere({ dni: dni });
@@ -45,5 +46,7 @@ export default {
   uploadProfilePicture,
   updateScoreWorker,
   setScoreUser,
-  terminateService
+  terminateService,
+  getService,
+  updateService
 };

@@ -9,6 +9,8 @@ const getWorkersWhere = db_controller.getWorkersWhere;
 const setScoreWorker = db_controller.setScoreWorker;
 const createWorkerPosulation = db_controller.createWorkerPosulation;
 const retireFromService = db_controller.retireFromService;
+const updateService = db_controller.updateService;
+const getFinalization = db_controller.getFinalization;
 
 async function getWorkerByDni(dni: string) {
   const response = await getWorkerWhere({ dni: dni });
@@ -38,6 +40,11 @@ async function retire(postulation: WorkerPostulations) {
   return response;
 }
 
+async function terminateService(service_id: number) {
+  const response = await updateService(service_id, {approbation_worker: 1});
+  return response;
+}
+
 export default {
   createWorker,
   getAllWorkers,
@@ -47,5 +54,8 @@ export default {
   setScoreWorker,
   getScoreWorker,
   addWorkerPostulation,
-  retire
+  retire,
+  terminateService,
+  getFinalization,
+  updateService
 };

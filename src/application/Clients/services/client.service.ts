@@ -1,6 +1,7 @@
 import UserController from "../../../data/controllers/database/User.controller";
 import { UserInterface } from "../../../data/interfaces/models";
 import ImageController from "../../../utils/images/uploadImage.service";
+import { ServiceStatus as Status } from "../../../data/interfaces/models";
 
 async function getProfileData(email: string) {
   const response = await UserController.getUserByDni(email);
@@ -49,8 +50,13 @@ async function getScoreUser(id: number) {
 
 async function terminateService(service_id: number) {
   const response = await UserController.terminateService(service_id);
+  const service = await UserController.getService(service_id);
+  if(service.message.approbation_worker == 1) {
+    await UserController.updateService(service_id, { service_status: Status["Assigned"]});
+    return { success: true, message: "Service terminated succesfully" };
+  }
   if (!response.success) return { success: false, message: response.message };
-  return { success: true, message: response.message };
+  return { success: true, message: "Service update succesfully" };
 }
 
 export default {
