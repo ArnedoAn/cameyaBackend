@@ -171,7 +171,6 @@ async function getWorkersWhere(data: any) {
 // SERVICE BASICS FUNCTIONS
 async function createService(service: any) {
   try {
-
     // Crea el modelo de servicio sin las categorías
     const newService = await prisma.service.create({
       data: service,
@@ -208,9 +207,9 @@ async function createService(service: any) {
         where: { id: newService.id },
         data: {
           Categories: {
-            connect: createdCategories.map((category) => ({ id: category.id }))
-          }
-        }
+            connect: createdCategories.map((category) => ({ id: category.id })),
+          },
+        },
       });
     }
     return { success: true, message: service };
@@ -227,9 +226,7 @@ async function getAllServices(page: number) {
   try {
     const services = await prisma.service.findMany({
       where: {
-        NOT: {
-          service_status: Status["Completed"],
-        }
+        service_status: Status["Not Assigned"],
       },
       skip: skip,
       take: pageSize,
@@ -299,7 +296,6 @@ async function getAllServices(page: number) {
     return { success: false, message: error.message };
   }
 }
-
 
 async function getAllServicesWhere(data: any) {
   try {
@@ -438,8 +434,8 @@ async function getServiceWhere(data: any) {
           select: {
             name: true,
           },
-        }
-      }
+        },
+      },
     });
 
     const mappedService = {
@@ -512,7 +508,7 @@ async function createWorkerPosulation(workerPosulation: workerPostulations) {
       data: {
         service_id: workerPosulation.service_id,
         worker_dni: workerPosulation.worker_dni,
-      }
+      },
     });
     return { success: true, message: newWorkerPosulation };
   } catch (error: Error | any) {
@@ -525,7 +521,7 @@ async function deleteWorkerPosulation(id_service: number) {
   try {
     const workerPosulation = await prisma.workerPostulations.deleteMany({
       where: {
-        service_id: id_service
+        service_id: id_service,
       },
     });
     return { success: true, message: workerPosulation };
@@ -586,11 +582,16 @@ async function setScoreUser(id: string, dni: string, score: number) {
 
 async function setScoreWorker(service_id: string, dni: string, score: number) {
   try {
-    const service = await updateService(Number(service_id), { worker_score: score });
+    const service = await updateService(Number(service_id), {
+      worker_score: score,
+    });
 
     if (!service.success) return service;
 
-    const worker = await getServiceWhere({ id: Number(service_id), worker_dni: dni });
+    const worker = await getServiceWhere({
+      id: Number(service_id),
+      worker_dni: dni,
+    });
 
     if (!worker.success)
       return { success: false, message: "No se encontró el servicio" };
@@ -627,7 +628,9 @@ async function getAllCategories() {
 
 async function retireFromService(postulation: workerPostulations) {
   try {
-    const service = await updateService(postulation.service_id, { service_status: Status["Completed"] });
+    const service = await updateService(postulation.service_id, {
+      service_status: Status["Completed"],
+    });
 
     return { success: true, message: service };
   } catch (error: Error | any) {
@@ -661,5 +664,5 @@ export default {
   deleteWorkerPosulation,
   getAllWorkerPosulations,
   getAllCategories,
-  retireFromService
+  retireFromService,
 };
