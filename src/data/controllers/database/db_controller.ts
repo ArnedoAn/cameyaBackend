@@ -68,7 +68,7 @@ async function getUserWhere(data: any) {
       where: data,
     });
     if (!client) return { success: false, message: "User not found" };
-    return { success: true, message: client };
+    return { success: true, message: client.score };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -143,11 +143,11 @@ async function deleteWorker(dni: string) {
 
 async function getWorkerWhere(data: any) {
   try {
-    const worker = await prisma.worker.findFirst({
+    const worker = await prisma.user.findFirst({
       where: data,
     });
     if (!worker) return { success: false, message: "Worker not found" };
-    return { success: true, message: worker };
+    return { success: true, message: worker.score };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
