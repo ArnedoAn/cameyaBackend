@@ -1,4 +1,3 @@
-import { RegisterCategories } from "@prisma/client";
 import { DBconstants as constants } from "../../../constants/database";
 import {
   UserInterface as User,
@@ -439,7 +438,6 @@ async function getServiceWhere(data: any) {
             name: true,
           },
         },
-
       },
     });
 
@@ -466,14 +464,14 @@ async function getFinalization(service_id: any) {
   try {
     const status = await prisma.service.findFirst({
       where: {
-        id: service_id
+        id: service_id,
       },
       select: {
         approbation_client: true,
-        approbation_worker: true
+        approbation_worker: true,
       },
     });
-    return { success: true, message: status }
+    return { success: true, message: status };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -651,11 +649,14 @@ async function getAllCategories() {
 
 async function retireFromService(postulation: workerPostulations) {
   try {
-    const service = await updateService(postulation.service_id, {
-      service_status: Status["Completed"],
+    const response = await prisma.workerPostulations.deleteMany({
+      where: {
+        service_id: postulation.service_id,
+        worker_dni: postulation.worker_dni,
+      },
     });
 
-    return { success: true, message: service };
+    return { success: true, message: response };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -688,5 +689,5 @@ export default {
   getAllWorkerPosulations,
   getAllCategories,
   retireFromService,
-  getFinalization
+  getFinalization,
 };
