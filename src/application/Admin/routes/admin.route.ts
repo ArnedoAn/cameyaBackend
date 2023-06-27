@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
 const router = express.Router(); //admin
 import adminService from "../services/admin.service";
-import { RegisterCategories } from "@prisma/client";
+import { Admin, RegisterCategories } from "@prisma/client";
+import { DBconstants as constants } from "../../../constants/database";
+const prisma = constants.prisma;
 
 router.post("/login", async (req: Request, res: Response) => {
     const response = await adminService.loginAdminFromForm(req.body);
@@ -9,6 +11,12 @@ router.post("/login", async (req: Request, res: Response) => {
         return res.status(200).json(response);
     }
     return res.status(400).json(response);
+});
+
+router.post("/create", async (req, res) => {
+    const admin = req.body as Admin
+    const result = await adminService.createAdmin(admin)
+    return result;
 });
 
 router.post("/createCategory", async (req: Request, res: Response) => {

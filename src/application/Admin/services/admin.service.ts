@@ -1,5 +1,5 @@
 import AdminController from "../../../data/controllers/database/Admin.controller";
-import { RegisterCategories } from "@prisma/client";
+import { Admin, RegisterCategories } from "@prisma/client";
 import { LoginDTO } from "../../../data/interfaces/auth_interfaces/login_dto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -68,6 +68,11 @@ async function loginAdminFromForm(admin: LoginDTO) {
     return jwt.sign({ email, password }, secretKey as string);
   }
 
+  async function createAdmin(admin:Admin) {
+    const data = await AdminController.createAdmin(admin)
+    return { success: true, message: "Admin rigth" };
+  }
+
 export default {
     createCategory,
     getCategories,
@@ -75,6 +80,7 @@ export default {
     deleteCategory,
     deleteService,
     deleteUser,
-    loginAdminFromForm
+    loginAdminFromForm,
+    createAdmin
 };
 

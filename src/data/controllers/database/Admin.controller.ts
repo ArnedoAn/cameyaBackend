@@ -1,8 +1,9 @@
-import { RegisterCategories } from "@prisma/client";
+import { Admin, RegisterCategories } from "@prisma/client";
 import { DBconstants as constants } from "../../../constants/database";
 import db_controller from "./db_controller";
 import { LoginDTO } from "../../interfaces/auth_interfaces/login_dto";
 const prisma = constants.prisma;
+import bcrypt from "bcrypt";
 
 async function createCategory(data: RegisterCategories) {
     try {
@@ -88,6 +89,17 @@ async function getAdminByEmail(adminEmail: string) {
     }
 }
 
+async function createAdmin(admin:Admin) {
+    admin.password = await bcrypt.hash(admin.password, 10);
+    try{
+        const response = await prisma.admin.create({
+            data: admin
+        })
+        return { success: true, message: response };
+    }catch(error: Error | any){
+        return { success: false, message: error.message };
+    }
+}
 
 export default {
     createCategory,
@@ -96,5 +108,6 @@ export default {
     deleteCategory,
     deleteService,
     deleteUser,
-    getAdminByEmail
+    getAdminByEmail,
+    createAdmin
 };
