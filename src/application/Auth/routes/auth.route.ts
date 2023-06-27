@@ -17,6 +17,7 @@ router.post("/register", async (req: Request, res: Response) => {
 });
 
 router.post("/login", async (req: Request, res: Response) => {
+  console.log(req.body);
   const response = await loginService.loginUserFromForm(req.body);
   if (response.success) {
     return res.status(200).json(response);

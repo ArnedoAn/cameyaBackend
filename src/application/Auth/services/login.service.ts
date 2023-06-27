@@ -7,7 +7,9 @@ import userController from "../../../data/controllers/database/User.controller";
 const secretKey = servicesConstanst.jwtSecret;
 
 async function loginUserFromForm(user: LoginDTO) {
+  console.log(user);
   const client = await userController.getUserByEmail(user.email);
+  console.log(client);
   if (!client.success || client.message === null) {
     return { success: false, message: "Invalid email or password" };
   }
@@ -25,6 +27,7 @@ async function loginUserFromForm(user: LoginDTO) {
 }
 
 async function validatePassword(pwd: string, pwdHashed: string) {
+  console.log(pwd, pwdHashed);
   return await bcrypt.compare(pwd, pwdHashed);
 }
 

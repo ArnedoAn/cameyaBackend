@@ -68,7 +68,7 @@ async function getUserWhere(data: any) {
       where: data,
     });
     if (!client) return { success: false, message: "User not found" };
-    return { success: true, message: client.score };
+    return { success: true, message: client };
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
