@@ -572,30 +572,26 @@ async function getAllWorkerPosulations(data: any) {
 // MULTIFUNCTIONS
 async function setScoreUser(id: string, dni: string, score: number) {
   try {
+    console.log(id, dni, score, typeof id, typeof dni, typeof score);
     const service = await updateService(Number(id), { client_score: score });
 
     if (!service.success) throw new Error(service.message);
 
-    const client = await getServiceWhere({ id: Number(id), client_dni: dni });
+    const result: any =
+      await prisma.$queryRaw`SELECT sp_avg_client(${dni}) AS average_score`;
 
-    if (!client.success)
-      return { success: false, message: "No se encontró el servicio" };
+    console.log(result);
 
-    const result = await prisma.service.aggregate({
-      where: {
-        client_dni: dni,
-        service_status: Status["Completed"],
-      },
-      _avg: {
-        client_score: true,
-      },
-    });
+    const average = Number(result[0]?.average_score);
 
-    const average = Number(result._avg.client_score?.toFixed(2)) ?? 0;
-    console.log("average", average);
-    const userUpdated = await updateUser(dni, { score: average });
+    console.log(average);
 
-    return { success: true, message: userUpdated };
+    if (average === null)
+      return { success: true, message: "No hay servicios completados" };
+    else {
+      const userUpdated = await updateUser(dni, { score: average });
+      return { success: true, message: userUpdated };
+    }
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
@@ -610,34 +606,21 @@ async function setScoreWorker(service_id: string, dni: string, score: number) {
 
     if (!service.success) throw new Error(service.message);
 
-    const worker = await getServiceWhere({
-      id: Number(service_id),
-      worker_dni: dni,
-    });
+    const result: any =
+      await prisma.$queryRaw`SELECT sp_avg_worker(${dni}) AS average_score`;
 
-    if (!worker.success)
-      return { success: false, message: "No se encontró el servicio" };
+    console.log(result);
 
+    const average = Number(result[0]?.average_score);
 
-    console.log("worker", worker, dni);
+    console.log(average);
 
-    const result = await prisma.service.aggregate({
-      where: {
-        worker_dni: dni,
-        service_status: Status["Completed"],
-      },
-      _avg: {
-        worker_score: true,
-      },
-    });
-
-    const average = Number(result._avg.worker_score?.toFixed(2)) ?? 0;
-
-    console.log("average", average);
-
-    const workerUpdated = await updateUser(dni, { score: average });
-
-    return { success: true, message: workerUpdated };
+    if (average === null)
+      return { success: true, message: "No hay servicios completados" };
+    else {
+      const userUpdated = await updateUser(dni, { score: average });
+      return { success: true, message: userUpdated };
+    }
   } catch (error: Error | any) {
     console.log(error);
     return { success: false, message: error.message };
