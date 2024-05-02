@@ -1,0 +1,34 @@
+version: "3"
+
+networks:
+  main:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    hostname: postgres
+    environment:
+      POSTGRES_DB: cameya
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresql
+    ports:
+      - "5432:5432"
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+
+  cameya_api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart:
+      always
+    ports:
+      - "3000:3000"
+    networks:
+      - main
+    environment:
+      WAIT_HOSTS: postgres:5432

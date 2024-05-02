@@ -1,34 +1,21 @@
 # Utiliza una imagen base con Node.js instalado
-FROM node:alpine
+FROM node:latest
 
-# Establece el directorio de trabajo dentro del contenedor
+# Instala Bun globalmente
+RUN npm install -g bun
+
+# Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos del proyecto al contenedor
-COPY package.json .
-COPY tsconfig.json .
-COPY .env .
-COPY credentials.json .
-COPY keys.json .
-
-# Instala las dependencias del proyecto
-RUN npm install
-
-# Instala TypeScript como una dependencia de desarrollo
-RUN npm install typescript -g
-
-# Copia el resto de los archivos del proyecto al contenedor
+# Copia los archivos de la aplicación al directorio de trabajo del contenedor
 COPY . .
 
-# Actualiza el ORM
+COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 
-#RUN npm run database
+# Instala las dependencias de la aplicación
+RUN bun i
+RUN bunx prisma generate
 
-# Compila el proyecto TypeScript
-RUN tsc
+ADD cameyaInit.sh /cameyaInit.sh
 
-# Expone el puerto que utiliza tu aplicación (asegúrate de que coincida con la configuración de tu aplicación)
-EXPOSE 3003
-
-# Comando para ejecutar la aplicación
-CMD [ "node", "dist/src/app.js" ]
+CMD /wait && /cameyaInit.sh
