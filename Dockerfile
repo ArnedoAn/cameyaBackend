@@ -16,6 +16,4 @@ COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 RUN bun i
 RUN bunx prisma generate
 
-COPY test.sh /app/test.sh
-
 CMD /wait && bunx prisma db push && bun run src/app.ts
