@@ -5,6 +5,7 @@ updateServer.bat
 uploads/
 package-lock.json
 /.idea
+bun.lockb
 
 # Logs
 logs
