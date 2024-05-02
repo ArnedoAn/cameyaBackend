@@ -16,6 +16,6 @@ COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 RUN bun i
 RUN bunx prisma generate
 
-ADD cameyaInit.sh /cameyaInit.sh
+COPY test.sh /app/test.sh
 
-CMD /wait && /cameyaInit.sh
+CMD /wait && ./test.sh
